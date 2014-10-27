@@ -2,7 +2,7 @@ set -e
 
 mkdir -p go/src/github.com/maximilien
 
-mv bosh-softlayer-cpi go/src/github.com/cppforlife/
+mv src/bosh-softlayer-cpi go/src/github.com/cppforlife/
 
 cd go/src/github.com/cppforlife/bosh-softlayer-cpi
 
