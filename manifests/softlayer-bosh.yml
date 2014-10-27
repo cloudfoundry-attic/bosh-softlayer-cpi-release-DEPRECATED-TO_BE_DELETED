@@ -183,5 +183,5 @@ properties:
 
   # softlayer job template
   softlayer:
-    username: maxim@us.ibm.com
-    api_key: 4afb3febf56ebbfb607468abbd862936e85aa9397458722dd3758c73c3598879
+    username: fake-username
+    apiKey: fake-apiKey
