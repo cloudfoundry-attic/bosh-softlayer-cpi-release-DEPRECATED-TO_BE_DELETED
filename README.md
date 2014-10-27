@@ -7,6 +7,28 @@ A [BOSH](https://github.com/cloudfoundry/bosh) release for `bosh-softlayer-cpi` 
 `bosh-softlayer-cpi` release can be deployed with any BOSH Director 
 just like any other BOSH release.
 
+1. Install Vagrant dependencies
+
+```
+vagrant plugin install vagrant-bosh
+gem install bosh_cli --no-ri --no-rdoc
+```
+
+1. Create a new VM with BOSH Director and BOSH Warden CPI releases
+
+```
+vagrant up
+```
+
+Note: See [deployment manifest](manifests/softlayer-bosh.yml) 
+to see how bosh and bosh-warden-cpi releases are collocated.
+
+1. Target deployed BOSH Director
+
+```
+bosh target localhost:25555
+bosh status
+```
 
 ### Running tests
 
