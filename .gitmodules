@@ -1,3 +1,6 @@
 [submodule "src/bosh-softlayer-cpi"]
 	path = src/bosh-softlayer-cpi
 	url = git@github.com:maximilien/bosh-softlayer-cpi.git
+[submodule "bosh-softlayer-cpi"]
+	path = bosh-softlayer-cpi
+	url = git@github.com:maximilien/bosh-softlayer-cpi.git
