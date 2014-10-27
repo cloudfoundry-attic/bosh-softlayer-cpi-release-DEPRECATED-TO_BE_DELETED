@@ -13,6 +13,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: "apt-get -y install linux-image-extra-$(uname -r)" # aufs
 
   config.vm.provision "bosh" do |c|
-    c.manifest = File.read("manifests/vagrant-bosh.yml")
+    c.manifest = File.read("manifests/softlayer-bosh.yml")
   end
 end
