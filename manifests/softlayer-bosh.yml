@@ -172,10 +172,6 @@ properties:
 
   # cpi job template
   cpi:
-    host_ip: 10.254.50.4
-    warden:
-      connect_network: tcp
-      connect_address: 127.0.0.1:7777
     agent:
       mbus: nats://nats:nats-password@10.254.50.4:4222
       blobstore:
@@ -185,7 +181,7 @@ properties:
           user: agent
           password: agent-password
 
-  # warden job template
+  # softlayer job template
   softlayer:
     username: maxim@us.ibm.com
     api_key: 4afb3febf56ebbfb607468abbd862936e85aa9397458722dd3758c73c3598879

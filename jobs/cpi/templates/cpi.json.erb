@@ -1,13 +1,10 @@
 <%=
 
 JSON.dump(
-  "Softlayer" => {
-    "Username" => p("cpi.softlayer.username"),
-    "Api_Key" => p("cpi.softlayer.api_key"),
-  },
-
   "Actions" => {
-    "StemcellsDir" => p("cpi.actions.stemcells_dir"),
+
+    "Softlayer" => {
+    },
 
     "Agent" => {
       "Mbus" => p("cpi.agent.mbus"),
@@ -17,14 +14,6 @@ JSON.dump(
         "Type"    => p("cpi.agent.blobstore.provider"),
         "Options" => p("cpi.agent.blobstore.options"),
       },
-    },
-
-    "AgentEnvService" => p("cpi.agent_env_service"),
-    "Registry" => {
-      "Host" => p("cpi.registry.host"),
-      "Port" => p("cpi.registry.port"),
-      "Username" => p("cpi.registry.username"),
-      "Password" => p("cpi.registry.password"),
     },
   }
 )
