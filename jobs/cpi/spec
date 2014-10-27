@@ -7,7 +7,6 @@ templates:
 
   cpi_ctl.erb:  bin/cpi_ctl
   cpi.json.erb: config/cpi.json
-  sudoers:      config/sudoers
 
 packages:
 - cpi
@@ -16,12 +15,6 @@ properties:
   cpi.host_ip:
     description: "IP address of the host that will be used by containers, must be the same as mbus IP"
     example: "10.254.50.4"
-
-  cpi.warden.connect_network:
-    description: "Connection type warden client will use to connect (tcp or unix)"
-
-  cpi.warden.connect_address:
-    description: "Address warden client will use to connect (ip:port or sock path)"
 
   cpi.agent.mbus:
     description: "Mbus URL used by deployed BOSH agents"

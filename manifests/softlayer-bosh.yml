@@ -1,11 +1,11 @@
 ---
-name: bosh-in-vagrant
+name: softlayer-in-vagrant
 
 releases:
 - name: bosh
   version: 104
   url: https://s3.amazonaws.com/bosh-jenkins-artifacts/release/bosh-2710.tgz # from http://bosh-artifacts.cfapps.io/
-- name: bosh-warden-cpi
+- name: bosh-softlayer-cpi
   version: latest
   url: dir+bosh://./
 
@@ -41,9 +41,7 @@ jobs:
   - name: health_monitor
     release: bosh
   - name: cpi
-    release: bosh-warden-cpi
-  - name: warden
-    release: bosh-warden-cpi
+    release: bosh-softlayer-cpi
 
 properties:
   ntp: ["0.us.pool.ntp.org"]
@@ -78,7 +76,7 @@ properties:
     port: 25255
 
   director:
-    name: bosh-in-vagrant
+    name: bosh-in-softlayer
     address: 127.0.0.1
     port: 25555
     encryption: false
@@ -188,9 +186,6 @@ properties:
           password: agent-password
 
   # warden job template
-  warden:
-    listen_network: tcp
-    listen_address: 0.0.0.0:7777
-    network_pool: 10.244.0.0/16 # bosh-lite v1 used this pool
-    disk_quota_enabled: false
-    kernel_network_tuning_enabled: false
+  softlayer:
+    username: maxim@us.ibm.com
+    api_key: 4afb3febf56ebbfb607468abbd862936e85aa9397458722dd3758c73c3598879
