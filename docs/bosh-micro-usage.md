@@ -17,9 +17,9 @@ cloud_provider:
   properties:
     cpi:
       host_ip: 10.254.50.4
-      warden:
-        connect_network: tcp
-        connect_address: 127.0.0.1:7777
+      softlayer:
+        username: your-softlayer-username@your-company.com
+        api_key: your-softlayer-api-key
       agent:
         mbus: nats://nats:nats-password@10.254.50.4:4222
         blobstore:
@@ -39,7 +39,7 @@ bosh-micro deployment my-micro/manifest.yml
 1. Kick off a deploy
 
 ```
-bosh-micro deploy ~/Downloads/bosh-warden-cpi-?.tgz ~/Downloads/stemcell.tgz
+bosh-micro deploy ~/Downloads/bosh-softlayer-cpi-?.tgz ~/Downloads/stemcell.tgz
 ```
 
 Currently bosh-micro CLI does not anything after creating a stemcell in IaaS.
