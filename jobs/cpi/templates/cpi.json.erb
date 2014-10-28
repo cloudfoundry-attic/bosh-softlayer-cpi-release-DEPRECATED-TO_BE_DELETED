@@ -1,13 +1,12 @@
 <%=
 
 JSON.dump(
+  "SoftLayer" => {
+    "username" => p("softlayer.username"),
+    "apiKey" => p("softlayer.apiKey"),
+  },
+
   "Actions" => {
-
-    "Softlayer" => {
-      "username": p("softlayer.username"),
-      "apiKey": p("softlayer.apiKey"),
-    },
-
     "Agent" => {
       "Mbus" => p("cpi.agent.mbus"),
       "NTP"  => p("cpi.agent.ntp"),

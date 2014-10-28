@@ -181,7 +181,9 @@ properties:
           user: agent
           password: agent-password
 
+  <% require "json" %>
+
   # softlayer job template
   softlayer:
-    username: fake-username
-    apiKey: fake-apiKey
+    username: <%= JSON.dump(ENV.fetch("SL_USERNAME")) %>
+    apiKey: <%= JSON.dump(ENV.fetch("SL_API_KEY")) %>
