@@ -1,6 +1,6 @@
 ## bosh-softlayer-cpi-release
 
-A [BOSH](https://github.com/cloudfoundry/bosh) release for `bosh-softlayer-cpi` written in Go. This is based on [cppforlife](http://github.com/cppforlife)'s [bosh-warden-cpi-release](http://github.com/cppforlife/bosh-warden-cpi-release) project.
+A [BOSH](https://github.com/cloudfoundry/bosh) release for the [`bosh-softlayer-cpi`](http://github.com/maximilien/bosh-softlayer-cpi) written in Go. This is based on [cppforlife](http://github.com/cppforlife)'s [bosh-warden-cpi-release](http://github.com/cppforlife/bosh-warden-cpi-release) project.
 
 ### Example SoftLayer environment
 
