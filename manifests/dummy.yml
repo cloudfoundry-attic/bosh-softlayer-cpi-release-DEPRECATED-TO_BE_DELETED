@@ -1,0 +1,58 @@
+---
+name: dummy2
+
+director_uuid: 94a74fb6-d73d-49c0-81e1-1ef3df0d9dcb
+
+releases:
+- {name: dummy, version: latest}
+
+networks:
+- name: default
+  type: dynamic
+  cloud_properties: {}
+  # subnets:
+  # - range: 10.10.0.0/24
+  #   gateway: 10.10.0.1
+  #   reserved:
+  #   - 10.10.0.2 - 10.10.0.10 # full bosh is .7
+  #   dns:
+  #   - 10.10.0.2
+  #   cloud_properties:
+  #     subnet: subnet-015e6d47
+
+compilation:
+  reuse_compilation_vms: true
+  workers: 1
+  network: default
+  cloud_properties: &cp
+    domain: softlayer.com
+    startCpus: 2
+    maxMemory: 1024
+    datacenter: {name: ams01}
+    sshKeys: [{id: 136868}]
+    rootDiskSize: 25
+    ephemeralDiskSize: 100
+
+resource_pools:
+- name: default
+  stemcell:
+    name: bosh-softlayer-ubuntu
+    version: latest
+  network: default
+  cloud_properties: *cp
+
+update:
+  canaries: 0
+  canary_watch_time: 1000-30000
+  update_watch_time: 1000-30000
+  max_in_flight: 6
+  serial: false
+
+jobs:
+- name: dummy
+  templates:
+  - name: dummy
+  instances: 2
+  resource_pool: default
+  networks:
+  - name: default
