@@ -1,8 +1,8 @@
 ## bosh-softlayer-cpi-release
 
-A [BOSH](https://github.com/cloudfoundry/bosh) release for the [`bosh-softlayer-cpi`](http://github.com/maximilien/bosh-softlayer-cpi) written in Go. This is based on [cppforlife](http://github.com/cppforlife)'s [bosh-warden-cpi-release](http://github.com/cppforlife/bosh-warden-cpi-release) project.
+A [BOSH](https://github.com/cloudfoundry/bosh) release for the [`bosh-softlayer-cpi`](http://github.com/maximilien/bosh-softlayer-cpi) written in Go.
 
-### Example SoftLayer environment
+### Example SoftLayer environment (*)
 
 `bosh-softlayer-cpi` release can be deployed with any BOSH Director 
 just like any other BOSH release.
@@ -42,7 +42,7 @@ bosh status
 1. Run BOSH Acceptance Tests via `spec/run-bats.sh`
 
 
-### Experimental `bosh-micro` usage
+### `bosh-micro` usage (*)
 
 See [bosh-micro usage doc](docs/bosh-micro-usage.md)
 
@@ -51,3 +51,11 @@ See [bosh-micro usage doc](docs/bosh-micro-usage.md)
 
 - Use standalone BATS and CPI lifecycle tests
 - Use BATS errand for running tests
+
+### Credit
+
+The base code was inpired by [cppforlife](https://github.com/cppforlife)'s [BOSH Warden CPI release](https://github.com/cppforlife/bosh-warden-cpi-release)'s example external Go-language CPI.
+
+**NOTE**: This is still _work in progress_. No guarantees are implied that this will be usable nor finish. Consider this code as prototype code.
+
+(*) these items are in the works, we will remove the * once they are available
