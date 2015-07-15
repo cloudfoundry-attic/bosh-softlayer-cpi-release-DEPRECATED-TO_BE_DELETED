@@ -3,6 +3,10 @@
 (
   set -e
 
+  echo -e "\n Printing path..."
+  ls
+  ls gopath
+
   echo -e "\n Creating archive..."
   version=`cat version/number`
   filename="bosh-softlayer-cpi-release-"
