@@ -8,4 +8,4 @@ inputs:
   - name: version
 
 run:
-  path: gopath/src/github.com/maximilien/bosh-softlayer-cpi-release/bin/build
+  path: gopath/src/github.com/maximilien/bosh-softlayer-cpi-release/ci/scripts/build-tarball
