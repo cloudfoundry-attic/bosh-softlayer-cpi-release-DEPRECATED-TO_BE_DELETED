@@ -6,5 +6,9 @@
   base=$( cd "$( dirname "$( dirname "$0" )")" && pwd )
   base_gopath=$( cd $base/../../../.. && pwd )
 
-  echo $base_gopath
+  echo -e "\n Creating archive..."
+  version = `cat version/number`
+  echo $version
+  filename = "bosh-softlayer-cpi-release-"
+  # tar -cvzf bosh-softlayer-cpi-release.tar.gz /bosh-softlayer-cpi-release/*
 )
