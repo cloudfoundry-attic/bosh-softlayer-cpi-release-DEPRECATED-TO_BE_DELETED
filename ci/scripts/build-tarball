@@ -5,7 +5,7 @@
 
   echo -e "\n Printing path..."
   ls
-  ls gopath
+  # ls gopath
 
   echo -e "\n Creating archive..."
   version=`cat version/number`
