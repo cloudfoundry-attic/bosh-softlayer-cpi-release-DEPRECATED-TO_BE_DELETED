@@ -1,0 +1,10 @@
+#!/bin/bash
+
+(
+  set -e
+
+  base=$( cd "$( dirname "$( dirname "$0" )")" && pwd )
+  base_gopath=$( cd $base/../../../.. && pwd )
+
+  echo base_gopath
+)
