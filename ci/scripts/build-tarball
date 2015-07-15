@@ -6,8 +6,12 @@
   # base=$( cd "$( dirname "$( dirname "$0" )")" && pwd )
   # base_gopath=$( cd $base/../../../.. && pwd )
 
+  echo -e "\n printing path..."
+  echo $PWD
+  ls
+
   echo -e "\n Creating archive..."
   version=`cat version/number`
   filename="bosh-softlayer-cpi-release-"
-  tar -cvzf "$filename$version" /bosh-softlayer-cpi-release/*
+  tar -cvzf "$filename$version" bosh-softlayer-cpi-release/*
 )
