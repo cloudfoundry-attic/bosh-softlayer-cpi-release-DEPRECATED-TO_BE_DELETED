@@ -4,8 +4,7 @@ image: docker:///posijon/slci
 
 inputs:
   - name: bosh-softlayer-cpi-release
-    path: .
   - name: version
 
 run:
-  path: ci/scripts/build-tarball
+  path: bosh-softlayer-cpi-release/ci/scripts/build-tarball
