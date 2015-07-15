@@ -8,7 +8,6 @@
 
   echo -e "\n Creating archive..."
   version=`cat version/number`
-  echo $version
   filename="bosh-softlayer-cpi-release-"
-  # tar -cvzf bosh-softlayer-cpi-release.tar.gz /bosh-softlayer-cpi-release/*
+  tar -cvzf "$filename$version" /bosh-softlayer-cpi-release/*
 )
