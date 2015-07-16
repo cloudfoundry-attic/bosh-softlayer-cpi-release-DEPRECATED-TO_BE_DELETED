@@ -1,0 +1,11 @@
+#!/bin/bash
+
+(
+  set -e
+
+  echo -e "\n Creating archive..."
+  version=`cat version/number`
+  filename="bosh-softlayer-cpi-release-"
+  extension=".tgz"
+  tar -cvzf "$filename$version$extension" bosh-softlayer-cpi-release/*
+)
