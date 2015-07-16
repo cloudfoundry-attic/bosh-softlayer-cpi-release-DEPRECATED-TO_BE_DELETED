@@ -7,4 +7,4 @@ inputs:
   - name: version
 
 run:
-  path: bosh-softlayer-cpi-release/ci/scripts/build-tarball
+  path: bosh-softlayer-cpi-release/ci/scripts/shipit
