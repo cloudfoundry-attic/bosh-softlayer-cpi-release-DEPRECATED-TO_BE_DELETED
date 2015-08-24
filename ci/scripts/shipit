@@ -11,6 +11,5 @@
   echo -e "\n Created archive..."
   mv dev-release/"$filename-$version.tgz" .
   mv dev-release/"$filename-$version.yml" .
-  # tar -cvzf 
-  "$filename$version$extension" bosh-softlayer-cpi-release/*
+  # tar -cvzf "$filename$version$extension" bosh-softlayer-cpi-release/*
 )
