@@ -3,12 +3,14 @@
 (
   set -e
 
-  echo -e "\n Creating archive..."
+  echo -e "\n Creating archive with bosh_cli..."
   version=`cat version/number`
   filename="bosh-softlayer-cpi-release"
   extension=".tgz"
   bosh create release --with-tarball --final --name "$filename" --version"$version"
   echo -e "\n Created archive..."
   mv dev-release/"$filename-$version.tgz" .
-  # tar -cvzf "$filename$version$extension" bosh-softlayer-cpi-release/*
+  mv dev-release/"$filename-$version.yml" .
+  # tar -cvzf 
+  "$filename$version$extension" bosh-softlayer-cpi-release/*
 )
