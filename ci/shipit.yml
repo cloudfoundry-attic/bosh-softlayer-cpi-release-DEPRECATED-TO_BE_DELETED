@@ -1,6 +1,6 @@
 ---
 platform: linux
-image: docker:///swayr/slci
+image: docker:///posijon/slci
 
 inputs:
   - name: bosh-softlayer-cpi-release
