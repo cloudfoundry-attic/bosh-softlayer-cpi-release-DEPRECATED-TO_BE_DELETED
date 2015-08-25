@@ -12,6 +12,26 @@ packages:
 - cpi
 
 properties:
+  softlayer.username:
+    description: ""
+  softlayer.apiKey:
+    description: ""
+  softlayer.default_key_name:
+    description: ""
+  softlayer.default_security_groups:
+    description: ""
+  softlayer.public_vlan_id:
+    description: ""
+  softlayer.private_vlan_id:
+    description: ""
+  softlayer.data_center:
+    description: ""  
+
+
+
+
+
+
   cpi.host_ip:
     description: "IP address of the host that will be used by containers, must be the same as mbus IP"
     example: "10.254.50.4"
