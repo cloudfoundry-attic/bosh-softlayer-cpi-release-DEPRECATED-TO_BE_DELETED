@@ -7,7 +7,7 @@
   version=`cat version/number`
   filename="bosh-softlayer-cpi-release"
   extension=".tgz"
-  ls
+  ls | sed 's/.*foo//'
   bosh create release --with-tarball --final --name "$filename" --version "$version"
   echo -e "\n Created archive..."
   cp dev-release/"$filename-$version.tgz" .
