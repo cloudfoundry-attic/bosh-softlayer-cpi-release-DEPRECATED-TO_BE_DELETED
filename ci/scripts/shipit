@@ -10,8 +10,8 @@
   cd bosh-softlayer-cpi-release
   bosh create release --with-tarball --name "$filename" --version "$version"
   echo -e "\n Created archive..."
-  ls | sed 's/.*foo//'
-  # cp dev-releases/"$filename-$version.tgz" .
-  # cp dev-releases/"$filename-$version.yml" .
+  # ls | sed 's/.*foo//'
+  cp dev-releases/bosh-softlayer-cpi-release/"$filename-$version.tgz" .
+  cp dev-releases/bosh-softlayer-cpi-release/"$filename-$version.yml" .
   # tar -cvzf "$filename$version$extension" bosh-softlayer-cpi-release/*
 )
