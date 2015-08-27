@@ -13,6 +13,7 @@
 
   # bosh upload release
   echo -e "\n Created archive...\n Uploaded to S3 Bucket"
+  cd releases
   ls | sed 's/.*foo//'
   cp releases/bosh-softlayer-cpi-release/"$filename-$version.tgz" ../.
   s3cmd put releases/bosh-softlayer-cpi-release/"$filename-$version.tgz" s3://bosh-softlayer-cpi-stemcells --access_key=$S3_ACCESS_KEY --secret_key=$S3_SECRET_KEY
