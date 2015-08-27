@@ -13,7 +13,7 @@
 
   # bosh upload release
   echo -e "\n Created archive...\n Uploaded to S3 Bucket"
-  # cp dev_releases/bosh-softlayer-cpi-release/"$filename-$version.tgz" ../.
+  cp releases/bosh-softlayer-cpi-release/"$filename-$version.tgz" ../.
   # cp dev_releases/bosh-softlayer-cpi-release/"$filename-$version.yml" ../.
   # tar -cvzf "$filename$version$extension" bosh-softlayer-cpi-release/*
 )
