@@ -9,8 +9,9 @@
   extension=".tgz"
   cp bosh-softlayer-private/private.yml bosh-softlayer-cpi-release/config/.
   cd bosh-softlayer-cpi-release
-  bosh create release --with-tarball --name "$filename" --version "$version"
-  bosh upload release
+  yes | bosh create release --with-tarball --final --name "$filename" --version "$version"
+
+  # bosh upload release
   echo -e "\n Created archive...\n Uploaded to S3 Bucket"
   # cp dev_releases/bosh-softlayer-cpi-release/"$filename-$version.tgz" ../.
   # cp dev_releases/bosh-softlayer-cpi-release/"$filename-$version.yml" ../.
