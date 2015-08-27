@@ -3,6 +3,7 @@ platform: linux
 image: docker:///swayr/slci
 
 inputs:
+  - name: bosh-softlayer-private
   - name: bosh-softlayer-cpi-release
   - name: version
 
