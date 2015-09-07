@@ -16,16 +16,6 @@ properties:
     description: "User name of the softlayer account"
   softlayer.apiKey:
     description: "API key of the softlayer account"
-  softlayer.default_key_name:
-    description: "Default key name of the softlayer account"
-  softlayer.default_security_groups:
-    description: "Default security groups of the softlayer account"
-  softlayer.public_vlan_id:
-    description: "Public vlan id of the host"
-  softlayer.private_vlan_id:
-    description: "Private vlan id of the host"
-  softlayer.data_center:
-    description: "Data center name of the host that will be inside"
 
   cpi.host_ip:
     description: "IP address of the host that will be used by containers, must be the same as mbus IP"
