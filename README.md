@@ -46,6 +46,11 @@ bosh status
 
 See [bosh-micro usage doc](docs/bosh-micro-usage.md)
 
+### Development
+
+1. Check for existing stories on our [public Tracker](https://www.pivotaltracker.com/n/projects/1344876)
+2. Select an unstarted story and work on code for it
+3. If the story you want to work on is not there then open an issue and ask for a new story to be created
 
 ### Todo
 
