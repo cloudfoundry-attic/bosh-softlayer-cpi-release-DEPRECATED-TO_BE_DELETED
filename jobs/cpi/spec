@@ -12,6 +12,11 @@ packages:
 - cpi
 
 properties:
+  softlayer.username:
+    description: "User name of the softlayer account"
+  softlayer.apiKey:
+    description: "API key of the softlayer account"
+
   cpi.host_ip:
     description: "IP address of the host that will be used by containers, must be the same as mbus IP"
     example: "10.254.50.4"
