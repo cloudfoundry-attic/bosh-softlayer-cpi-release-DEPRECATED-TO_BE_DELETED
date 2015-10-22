@@ -42,9 +42,9 @@ bosh status
 1. Run BOSH Acceptance Tests via `spec/run-bats.sh`
 
 
-### `bosh-micro` usage (*)
+### `bosh-init` usage (*)
 
-See [bosh-micro usage doc](docs/bosh-micro-usage.md)
+See [bosh-init usage doc](docs/bosh-init-usage.md)
 
 ### Development
 
