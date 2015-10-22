@@ -1,13 +1,11 @@
-## Experimental `bosh-micro` usage
+## Experimental `bosh-init` usage
 
-!!! `bosh-micro` CLI is still being worked on !!!
-
-To start experimenting with bosh-warden-cpi release and new bosh-micro cli:
+To start experimenting with bosh-softlayer-cpi release and new bosh-init cli:
 
 1. Create a deployment directory
 
 ```
-mkdir my-micro
+mkdir my-bosh-init
 ```
 
 1. Create `manifest.yml` inside deployment direcrtory with following contents
@@ -33,13 +31,11 @@ cloud_provider:
 1. Set deployment
 
 ```
-bosh-micro deployment my-micro/manifest.yml
+bosh-init deployment my-micro/manifest.yml
 ```
 
 1. Kick off a deploy
 
 ```
-bosh-micro deploy ~/Downloads/bosh-softlayer-cpi-?.tgz ~/Downloads/stemcell.tgz
+bosh-init deploy ~/Downloads/bosh-softlayer-cpi-?.tgz ~/Downloads/stemcell.tgz
 ```
-
-Currently bosh-micro CLI does not anything after creating a stemcell in IaaS.
