@@ -4,7 +4,9 @@ At present, it is able to creat and update bosh environment on SoftLayer by bosh
 
 This document shows how to initialize new environment on Softlayer.
 
-0. Create a deployment directory
+0. Create a deployment directory, install bosh-init
+
+http://bosh.io/docs/install-bosh-init.html
 
 ```
 mkdir my-bosh-init
@@ -18,7 +20,8 @@ name: bosh
 
 releases:
 - name: bosh
-  url: file://./bosh-206+dev.2.tgz # <--- Replace with customized bosh release, as we could not use commuity bosh director, for example, in future, SL eCPI need to support os_reload fucntionality which requiring a few changes in director
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=218
+  sha1: 7ad794897468a453e81b018da53c8475a23cef2b
 - name: bosh-softlayer-cpi
   url: file://./bosh-softlayer-cpi-0+dev.1.tgz #<--- Replace with SL eCPI release
 
@@ -130,26 +133,7 @@ cloud_provider:
           options:
             blobstore_path: /var/vcap/micro_bosh/data/cache
 ```
-
-3. Prepare an bosh-release for SL eCPI (I am still investigating the root cause, this step might be dropped in future)
-  clone bosh source code, change the following file
-```
-release/jobs/director/templates/director.yml.erb.erb
-```
- comment or drop the following line
-```
--ignore_missing_gateway: <%= JSON.dump(p('director.ignore_missing_gateway')) %>
-```
-  build bosh
-```
-    cd bosh
-    bundle install
-    cd bosh/bosh-dev
-    bundle exec rake release:create_dev_release
-    cd bosh/release/
-    bosh create release --force --with-tarball
-```
-4. Prepare a new bosh-agent and stemcell for eCPI
+3. Prepare a new bosh-agent and stemcell for eCPI
    please use the version of http://github.com/mattcui/bosh-agent bm_beta branch in softlayer stemcell
    agent.json should be as follows in softlayer stemcell
 
@@ -177,13 +161,13 @@ release/jobs/director/templates/director.yml.erb.erb
 ```
  create a directory /var/vcap/bosh/micro_bosh in stemcell for local blobstore of bosh-agent
 
-5. Set deployment
+4. Set deployment
 
 ```
 bosh-init deployment bosh.yml
 ```
 
-6. Kick off a deploy
+5. Kick off a deploy
 
 ```
 bosh-init deploy bosh.yml
