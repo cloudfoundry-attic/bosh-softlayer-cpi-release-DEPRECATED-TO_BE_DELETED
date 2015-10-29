@@ -175,6 +175,7 @@ release/jobs/director/templates/director.yml.erb.erb
   }
 } 
 ```
+ create a directory /var/vcap/bosh/micro_bosh in stemcell for local blobstore of bosh-agent
 
 5. Set deployment
 
