@@ -20,38 +20,45 @@ name: bosh
 
 releases:
 - name: bosh
-  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=218
-  sha1: 7ad794897468a453e81b018da53c8475a23cef2b
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=219
+  sha1: bbd03790a2839aab26d3fa4cfe1493d361872f33
 - name: bosh-softlayer-cpi
-  url: file://./bosh-softlayer-cpi-0+dev.1.tgz #<--- Replace with SL eCPI release
+  url: file://./bosh-softlayer-cpi-0+dev.1.tgz
 
 resource_pools:
 - name: vms
   network: default
   stemcell:
-    url: file://./light-bosh-stemcell-3031-softlayer-esxi-ubuntu-trusty-go_agent.tgz # <--- Stemcell and bosh-agent should need some changes due to constrains of Softlayer
+    url: file://./light-bosh-stemcell-3031-softlayer-esxi-ubuntu-trusty-go_agent.tgz
   cloud_properties:
-    Domain: softlayer.com
-    VmNamePrefix: bosh-experimental  # <--- It is better to use a catchy name which will be used in the following section
-    StartCpus: 1
-    MaxMemory: 1024
+    Domain: SOFTLAYER.COM      # <--- domain name for new director
+    VmNamePrefix: VMNAMEPREFIX # <--- indicate a hostname prefix for new director
+    StartCpus: 4
+    MaxMemory: 8192
     Datacenter:
        Name: lon02
     HourlyBillingFlag: true
+    PrimaryNetworkComponent:
+       NetworkVlan:
+          Id: 524956
+    PrimaryBackendNetworkComponent:
+       NetworkVlan:
+          Id: 524954
+    NetworkComponents:
+    - MaxSpeed: 1000
+
 disk_pools:
 - name: disks
   disk_size: 40_000
   cloud_properties:
     consistent_performance_iscsi: true
 
-
 networks:
 - name: default
   type: dynamic
-  dns: [8.8.8.8] # <--- Replace with your DNS
-  preconfigured: true
-
-
+  dns:
+  - 8.8.8.8
+  
 jobs:
 - name: bosh
   instances: 1
@@ -63,6 +70,7 @@ jobs:
   - {name: blobstore, release: bosh}
   - {name: director, release: bosh}
   - {name: health_monitor, release: bosh}
+  - {name: powerdns, release: bosh}
   - {name: cpi, release: bosh-softlayer-cpi}
 
   resource_pool: vms
@@ -73,55 +81,95 @@ jobs:
 
   properties:
     nats:
-      address: 127.0.0.1
       user: nats
-      password: nats-password
-
-    redis:
-      listen_addresss: 127.0.0.1
+      password: nats
+      auth_timeout: 3
       address: 127.0.0.1
-      password: redis-password
-
-    postgres: &db
-      host: 127.0.0.1
+      listen_address: 0.0.0.0
+      port: 4222
+      no_epoll: false
+      no_kqueue: true
+      ping_interval: 5
+      ping_max_outstanding: 2
+      http:
+        port: 9222
+    redis:
+      address: 127.0.0.1
+      password: redis
+      port: 25255
+      loglevel: info
+    postgres: &20585760
       user: postgres
-      password: postgres-password
+      password: postges
+      host: 127.0.0.1
       database: bosh
       adapter: postgres
-
     blobstore:
       address: 127.0.0.1
+      director:
+        user: director
+        password: director
+      agent:
+        user: agent
+        password: agent
       port: 25250
       provider: dav
-      director: {user: director, password: director-password}
-      agent: {user: agent, password: agent-password}
-
     director:
-      address: 127.0.0.1
-      name: my-bosh
-      db: *db
       cpi_job: cpi
-      max_threads: 3
-
+      address: 127.0.0.1
+      name: bosh
+      db:
+        adapter: postgres
+        database: bosh
+        host: 127.0.0.1
+        password: postges
+        user: postgres
     hm:
-      director_account: {user: admin, password: admin}
-      resurrector_enabled: true
-
+      http:
+        user: hm
+        password: hm
+        port: 25923
+      director_account:
+        user: admin
+        password: Cl0udyWeather
+      intervals:
+        log_stats: 300
+        agent_timeout: 180
+        rogue_agent_alert: 180
+        prune_events: 30
+        poll_director: 60
+        poll_grace_period: 30
+        analyze_agents: 60
+      pagerduty_enabled: false
+      resurrector_enabled: false
+    dns:
+      address: 127.0.0.1
+      domain_name: microbosh
+      db: *20585760
+      webserver:
+        port: 8081
+        address: 0.0.0.0
     softlayer: &softlayer
-      username: fake-username # <--- Replace with username of your SL account
-      apiKey: fake-api-key    # <--- Replace with password of your SL account
-      public_vlan_id: fake-public-vlan   # <--- Replace with proper private vlan if needed
-      private_vlan_id: fake-private-vlan # <--- Replace with proper private vlan if needed
-      data_center: lon02
+      username: fake-username # <--- Replace with username
+      apiKey: fake-api-key    # <--- Replace with api-key
 
     cpi:
-      agent: {mbus: "nats://nats:nats-password@127.0.0.1:4222"}
+      agent:
+        mbus: nats://nats:nats@127.0.0.1:4222
+        ntp: []
+        blobstore:
+          provider: dav
+          options:
+            endpoint: http://127.0.0.1:25250
+            user: agent
+            password: agent
 
     ntp: &ntp []
 
 cloud_provider:
   template: {name: cpi, release: bosh-softlayer-cpi}
-  mbus: "https://admin:admin@bosh-experimental.softlayer.com:6868" # <--- Replace with VmNamePrefix + Domain indicated in cloud_properties of resource_pools section, as bosh-init does not support dynamic ip, it is only supporting static/floating ip, so we are using predined hostname in mbus. Please don`t use IP here.
+  mbus: "https://admin:admin@VMNAMEPREFIX.SOFTLAYER.COM:6868" # <--- Replace with a hostname of new director in advance
+
   properties:
     softlayer: *softlayer
     cpi:
