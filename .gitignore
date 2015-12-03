@@ -10,7 +10,6 @@ bosh-*.tgz
 tmp
 
 config/dev.yml
-config/private.yml
 
 .blobs
 blobs
