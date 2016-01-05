@@ -28,6 +28,10 @@ properties:
   cpi.agent.ntp:
     description: "NTP configuration used by deployed BOSH agents"
     default: []
+    
+  cpi.agent.vcappassword:
+    description: "VCAP password for deployed BOSH VMS"
+    default: ""
 
   cpi.agent.blobstore.provider:
     description: "Provider type for the blobstore used by deployed BOSH agents (e.g. dav, s3)"
