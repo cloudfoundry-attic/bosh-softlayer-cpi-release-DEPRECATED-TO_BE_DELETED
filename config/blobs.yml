@@ -1,5 +1,6 @@
----
+--
 golang_1.3/go1.3.3.linux-amd64.tar.gz:
-  object_id: 8e0b6f8b-eff2-400e-9d1b-9c1b83bce489
-  sha: 14068fbe349db34b838853a7878621bbd2b24646
+  object_id: 5ad022eb-7b8a-4ca5-9650-9913e0810e4b
+  sha: !binary |-
+    MTQwNjhmYmUzNDlkYjM0YjgzODg1M2E3ODc4NjIxYmJkMmIyNDY0Ng==
   size: 53204098
