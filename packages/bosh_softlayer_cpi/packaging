@@ -1,0 +1,17 @@
+set -e -x
+
+if [ -z "$BOSH_PACKAGES_DIR" ]; then
+	pkg_dir=$(readlink -nf /var/vcap/packages/golang_1.5.3)
+else
+	pkg_dir=$BOSH_PACKAGES_DIR/golang_1.5.3
+fi
+
+export GOROOT=$pkg_dir
+export GOPATH=$PWD
+export PATH=$GOROOT/bin:$PATH
+
+mkdir ../src && cp -a * ../src/ && mv ../src ./src
+
+mkdir $BOSH_INSTALL_TARGET/bin
+
+go build -o $BOSH_INSTALL_TARGET/bin/softlayer_cpi src/github.com/maximilien/bosh-softlayer-cpi/main/*.go
