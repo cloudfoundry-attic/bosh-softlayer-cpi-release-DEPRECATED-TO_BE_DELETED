@@ -19,12 +19,6 @@ jobs:
 
   - task: build
     file: bosh-cpi-release/ci/tasks/build-candidate.yml
-    on_failure:
-      put: slack-alert
-      params:
-        channel: {{slack_channel_name}}
-        icon_url: http://cl.ly/image/3e1h0H3H2s0P/concourse-logo.png
-        text: {{slack_build_release_failure_message}}
 
   - put: bosh-cpi-dev-artifacts
     params: {from: candidate/.*\.tgz}
@@ -37,8 +31,8 @@ jobs:
     - {trigger: false,                            get: bats}
     - {trigger: false,                            get: bosh-init}
     - {trigger: false,                            get: stemcell, resource: softlayer-ubuntu-stemcell}
-    - {trigger: true,  passed: [build-candidate], get: version-semver, resource: version-semver}
     - {trigger: false,                            get: stemcell-version}
+    - {trigger: true,  passed: [build-candidate], get: version-semver, resource: version-semver}
     - {trigger: false,                            get: bosh-release}
 
   - task: setup-director
@@ -64,12 +58,6 @@ jobs:
         SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
         SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
         SL_VM_NAME_PREFIX:          {{softlayer_bats_name_prefix}}
-    on_failure:
-      put: slack-alert
-      params:
-        channel: {{slack_channel_name}}
-        icon_url: http://cl.ly/image/3e1h0H3H2s0P/concourse-logo.png
-        text: {{slack_bats_failure_message}}
 
   - task: teardown-director
     file: bosh-cpi-release/ci/tasks/teardown-director.yml
@@ -97,12 +85,6 @@ jobs:
   - put: bosh-cpi-final-artifacts
     params: {from: promoted/repo/releases/bosh-softlayer-cpi/.*\.tgz}
 
-  - put: slack-alert
-    params:
-      channel: {{slack_channel_name}}
-      icon_url: http://cl.ly/image/3e1h0H3H2s0P/concourse-logo.png
-      text: {{slack_new_release_message}}
-
 resources:
 - name: bosh-cpi-dev-artifacts
   type: s3
@@ -123,7 +105,7 @@ resources:
 - name: bosh-cpi-release-in
   type: git
   source:
-    uri: git@github.com:jianqiu/bosh-softlayer-cpi-release-2.git
+    uri: git@github.com:jianqiu/bosh-softlayer-cpi-release.git
     branch: master
     private_key: {{github_promote_private_key}}
     ignore_paths:
@@ -184,7 +166,10 @@ resources:
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
-- name: slack-alert
-  type: slack-notification
+- name: stemcell-version
+  type: semver
   source:
-    url: {{slack_hook_url}}
+    key: stemcell-version
+    bucket: {{s3_candidate_stemcell_bucket_name}}
+    access_key_id: {{s3_access_key_id}}
+    secret_access_key: {{s3_secret_access_key}}
