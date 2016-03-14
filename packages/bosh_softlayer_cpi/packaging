@@ -14,7 +14,7 @@ mkdir -p ../src/github.com/cloudfoundry/ && cp -a * ../src/github.com/cloudfound
 
 mkdir $BOSH_INSTALL_TARGET/bin
 
-cd src/github.com/maximilien/bosh-softlayer-cpi
+cd src/github.com/cloudfoundry/bosh-softlayer-cpi
 
 bin/build-linux-amd64
 

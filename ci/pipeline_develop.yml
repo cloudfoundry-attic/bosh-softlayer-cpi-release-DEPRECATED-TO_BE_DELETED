@@ -29,19 +29,37 @@ jobs:
     - {trigger: true,  passed: [build-candidate], get: bosh-cpi-dev-artifacts}
     - {trigger: false,                            get: bosh-cpi-release, resource: bosh-cpi-release-in}
     - {trigger: false,                            get: bats}
+    - {trigger: false,                            get: bosh-init}
     - {trigger: false,                            get: stemcell, resource: softlayer-ubuntu-stemcell}
+    - {trigger: true,  passed: [build-candidate], get: version-semver, resource: version-semver}
+    - {trigger: false,                            get: bosh-release}
+
+  - task: setup-director
+    file: bosh-cpi-release/ci/tasks/setup-director.yml
+    config:
+      params:
+        BASE_OS:                    ubuntu
+        SL_USERNAME:                {{softlayer_username}}
+        SL_API_KEY:                 {{softlayer_api_key}}
+        SL_DATACENTER:              {{softlayer_datacenter}}
+        SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
+        SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
+        SL_VM_NAME_PREFIX:          {{softlayer_director_name_prefix}}
 
   - task: run-bats
-    file: bosh-cpi-release/ci/tasks/run-bats-debug.yml
+    file: bosh-cpi-release/ci/tasks/run-bats.yml
     config:
       params:
         BASE_OS:                    ubuntu
         BAT_VCAP_PASSWORD:          {{bat_vcap_password}}
-        BAT_DIRECTOR_IP:            {{bat_director_ip}}
+        BAT_SECOND_STATIC_IP:       {{bat_second_static_ip}}
         SL_DATACENTER:              {{softlayer_datacenter}}
         SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
         SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
         SL_VM_NAME_PREFIX:          {{softlayer_bats_name_prefix}}
+
+  - task: teardown-director
+    file: bosh-cpi-release/ci/tasks/teardown-director.yml
 
 - name: promote-candidate
   plan:

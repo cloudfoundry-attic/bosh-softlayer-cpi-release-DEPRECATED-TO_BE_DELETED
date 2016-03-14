@@ -9,7 +9,7 @@ pushd bosh-cpi-release
   source .envrc
 
   #echo "running unit tests"
-  #pushd src/github.com/maximilien/bosh-softlayer-cpi
+  #pushd src/github.com/cloudfoundry/bosh-softlayer-cpi
     # bin/test
   #popd
 
