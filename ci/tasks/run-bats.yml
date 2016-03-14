@@ -6,6 +6,7 @@ inputs:
 - name: bosh-cpi-release
 - name: bats
 - name: deployment
+- name: stemcell-version
 run:
   path: bosh-cpi-release/ci/tasks/run-bats.sh
 params:

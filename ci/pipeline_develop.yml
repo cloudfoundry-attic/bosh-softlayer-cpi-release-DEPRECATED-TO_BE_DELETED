@@ -31,6 +31,7 @@ jobs:
     - {trigger: false,                            get: bats}
     - {trigger: false,                            get: bosh-init}
     - {trigger: false,                            get: stemcell, resource: softlayer-ubuntu-stemcell}
+    - {trigger: false,                            get: stemcell-version}
     - {trigger: true,  passed: [build-candidate], get: version-semver, resource: version-semver}
     - {trigger: false,                            get: bosh-release}
 
@@ -164,3 +165,11 @@ resources:
     regexp: light-bosh-stemcell-([0-9.]+)-softlayer-esxi-ubuntu-trusty-go_agent\.tgz
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
+
+- name: stemcell-version
+  type: semver
+  source:
+    key: stemcell-version
+    bucket: {{s3_candidate_stemcell_bucket_name}}
+    access_key_id: {{aws_builder_access_key}}
+    secret_access_key: {{aws_builder_secret_access_key}}
