@@ -38,6 +38,7 @@ jobs:
     - {trigger: false,                            get: bosh-init}
     - {trigger: false,                            get: stemcell, resource: softlayer-ubuntu-stemcell}
     - {trigger: true,  passed: [build-candidate], get: version-semver, resource: version-semver}
+    - {trigger: false,                            get: stemcell-version}
     - {trigger: false,                            get: bosh-release}
 
   - task: setup-director
