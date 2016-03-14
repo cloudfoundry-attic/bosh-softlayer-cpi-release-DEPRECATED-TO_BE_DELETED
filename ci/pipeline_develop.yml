@@ -86,7 +86,7 @@ resources:
 - name: bosh-cpi-release-in
   type: git
   source:
-    uri: git@github.com:jianqiu/bosh-softlayer-cpi-release-2.git
+    uri: git@github.com:jianqiu/bosh-softlayer-cpi-release.git
     branch: master
     private_key: {{github_promote_private_key}}
     ignore_paths:
