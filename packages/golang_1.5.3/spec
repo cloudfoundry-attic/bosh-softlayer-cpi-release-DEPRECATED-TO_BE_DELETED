@@ -1,0 +1,8 @@
+---
+name: golang_1.5.3
+
+dependencies: []
+
+files:
+    - golang_1.5.3/go1.5.3.linux-amd64.tar.gz # https://golang.org/doc/install?download=go1.3.3.linux-amd64.tar.gz
+
