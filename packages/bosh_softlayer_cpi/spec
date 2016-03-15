@@ -1,0 +1,11 @@
+---
+name: bosh_softlayer_cpi
+
+dependencies: [golang_1.5.3]
+
+files:
+- "**/*"
+
+excluded_files:
+- github.com/onsi/ginkgo/**/*
+- github.com/onsi/gomega/**/*
