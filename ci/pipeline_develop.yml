@@ -106,7 +106,7 @@ resources:
   type: git
   source:
     uri: git@github.com:jianqiu/bosh-softlayer-cpi-release.git
-    branch: master
+    branch: develop
     private_key: {{github_promote_private_key}}
     ignore_paths:
         - .final_builds/**/*.yml
@@ -116,7 +116,7 @@ resources:
   type: git
   source:
     uri: git@github.com:jianqiu/bosh-softlayer-cpi-release.git
-    branch: master
+    branch: develop
     private_key: {{github_promote_private_key}}
 
 - name: version-semver
@@ -136,18 +136,15 @@ resources:
     secret_access_key: {{s3_secret_access_key}}
 
 - name: bosh-release
-  type: s3
+  type: bosh-io-release
   source:
-      bucket: bosh-softlayer-cpi-stemcells
-      regexp: bosh-236\+dev\.([0-9.]+)\.tgz
-      access_key_id: {{s3_access_key_id}}
-      secret_access_key: {{s3_secret_access_key}}
+    repository: cloudfoundry/bosh
 
 - name: bosh-init
   type: s3
   source:
     regexp: bosh-init-([0-9.]+)-linux-amd64
-    bucket: bosh-softlayer-cpi-stemcells
+    bucket: dev-bosh-softlayer-cpi-stemcells
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
