@@ -152,7 +152,7 @@ resources:
   type: git
   source:
     uri: git@github.com:jianqiu/bosh-acceptance-tests.git
-    branch: master
+    branch: bosh_v2
     private_key: {{github_promote_private_key}}
 
 - name: softlayer-ubuntu-stemcell
