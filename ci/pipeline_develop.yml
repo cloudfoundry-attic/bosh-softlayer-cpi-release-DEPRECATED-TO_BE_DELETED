@@ -106,7 +106,7 @@ resources:
   type: git
   source:
     uri: git@github.com:jianqiu/bosh-softlayer-cpi-release.git
-    branch: develop
+    branch: develop_v1
     private_key: {{github_promote_private_key}}
     ignore_paths:
         - .final_builds/**/*.yml
@@ -116,7 +116,7 @@ resources:
   type: git
   source:
     uri: git@github.com:jianqiu/bosh-softlayer-cpi-release.git
-    branch: develop
+    branch: develop_v1
     private_key: {{github_promote_private_key}}
 
 - name: version-semver
@@ -152,7 +152,7 @@ resources:
   type: git
   source:
     uri: git@github.com:jianqiu/bosh-acceptance-tests.git
-    branch: bosh_v2
+    branch: master
     private_key: {{github_promote_private_key}}
 
 - name: softlayer-ubuntu-stemcell
