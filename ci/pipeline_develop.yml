@@ -1,6 +1,6 @@
 ---
 groups:
-  - name: bosh-softlayer-cpi-release
+  - name: bosh-softlayer-cpi-release-v2
     jobs:
       - build-candidate
       - bats-ubuntu
