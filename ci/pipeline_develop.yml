@@ -136,15 +136,18 @@ resources:
     secret_access_key: {{s3_secret_access_key}}
 
 - name: bosh-release
-  type: bosh-io-release
+  type: s3
   source:
-    repository: cloudfoundry/bosh
+      bucket: bosh-softlayer-cpi-stemcells
+      regexp: bosh-236\+dev\.([0-9.]+)\.tgz
+      access_key_id: {{s3_access_key_id}}
+      secret_access_key: {{s3_secret_access_key}}
 
 - name: bosh-init
   type: s3
   source:
     regexp: bosh-init-([0-9.]+)-linux-amd64
-    bucket: dev-bosh-softlayer-cpi-stemcells
+    bucket: bosh-softlayer-cpi-stemcells
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
