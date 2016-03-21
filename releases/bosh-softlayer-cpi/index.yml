@@ -8,4 +8,10 @@ builds:
     version: '3'
   8bb8036e-28b6-4bb4-bc07-87b15841242c:
     version: '7'
+  93d7cc4d-0fda-4dac-a4aa-0028d2e0dafe:
+    version: '8'
+  c1cb4b98-38fe-4cd5-840e-946b6ddfe8c0:
+    version: '9'
+  9aeeb52f-4088-4ba0-bf21-862e5e807798:
+    version: '10'
 format-version: '2'
