@@ -106,7 +106,7 @@ resources:
   type: git
   source:
     uri: git@github.com:jianqiu/bosh-softlayer-cpi-release.git
-    branch: develop
+    branch: develop_v2
     private_key: {{github_promote_private_key}}
     ignore_paths:
         - .final_builds/**/*.yml
@@ -116,7 +116,7 @@ resources:
   type: git
   source:
     uri: git@github.com:jianqiu/bosh-softlayer-cpi-release.git
-    branch: develop
+    branch: develop_v2
     private_key: {{github_promote_private_key}}
 
 - name: version-semver
