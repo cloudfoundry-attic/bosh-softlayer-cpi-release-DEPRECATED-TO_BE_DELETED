@@ -8,7 +8,7 @@
 
 This is a BOSH release for the Softlayer CPI.
 
-## BOSH bootstrap on SoftLayer
+## Bootstrap on SoftLayer
 
 see [bosh-init-usage doc](docs/bosh-init-usage.md).
 
