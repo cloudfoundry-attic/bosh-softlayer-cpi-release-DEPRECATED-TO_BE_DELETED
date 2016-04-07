@@ -1,4 +1,5 @@
-ci/credentials.yml
+ci/credentials-v1.yml
+ci/credentials-v2.yml
 config/dev.yml
 config/private.yml
 releases/*.tgz
