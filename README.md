@@ -10,11 +10,11 @@ This is a BOSH release for the Softlayer CPI.
 
 ## Bootstrap on SoftLayer
 
-see [bosh-init-usage doc](docs/bosh-init-usage.md).
+see [bosh-init-usage](docs/bosh-init-usage.md).
 
 ## Deployment Manifest Schema Sample:
 
-see []
+see [cf-deployment-manifest](docs/cf_deployment_sl_sample.yml)
 
 ## Development
 
