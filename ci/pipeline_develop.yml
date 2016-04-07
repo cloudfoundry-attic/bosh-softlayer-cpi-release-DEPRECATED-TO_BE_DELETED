@@ -65,7 +65,7 @@ jobs:
   - aggregate:
     - {trigger: true,  get: bosh-cpi-dev-artifacts, passed: [bats-ubuntu]}
     - {trigger: false, get: bosh-cpi-release, resource: bosh-cpi-release-out}
-    - {trigger: false, get: release-version-semver, params: {bump: major}}
+    - {trigger: false, get: release-version-semver, params: {bump: minor}}
 
   - task: promote
     file: bosh-cpi-release/ci/tasks/promote-candidate.yml
@@ -131,6 +131,7 @@ resources:
     bucket:            {{s3_pipeline_bucket}}
     access_key_id:     {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
+    initial_version: 2.0.0
 
 - name: bosh-release
   type: bosh-io-release
