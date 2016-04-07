@@ -1,0 +1,1832 @@
+---
+<%
+name=
+domain=
+bmapps_domain=
+boshdns=
+bosh_ip=
+public_vlan_id=
+private_vlan_id=
+data_center=
+
+version=
+build=
+bluemix_uaa_master_issuer_uri=
+
+cf_release=
+cf_release_version=
+cf_services_release=
+cf_services_release_version=
+cf_services_contrib_release=
+cf_services_contrib_release_version=
+
+main_user_name=
+password=
+ccdb_name=
+ccdb_password=
+ccdbng_bkp_name=
+ccdbng_bkp_password=
+ccdbng_name=
+ccng_admin_bootstrap_email=
+ccng_bulk_api_password=
+ccng_db_encryption_key=
+ccng_pkg_os_temp_url_key=
+ccng_pkg_os_username=
+ccng_pkg_os_api_key=
+ccng_staging_upload_password=
+ccng_staging_upload_user=
+cc_internal_api_pwd=
+cc_internal_api_user=
+cc_username_lookup_secret=
+dashb_uaa_client_id=
+dashb_uaa_client_secret=
+doppler_secret=
+ipsec_encrypt_key=
+ipsec_auth_key=
+ipsec_orchestrator_ssl_cert_password=
+loginserver_uaa_secret=
+loginserver_uaa_glyph=
+loginserver_sso_secret=
+mysql_node_password=
+nats_password=
+nats_username=
+postgresql_node_password=
+routerapi_user=
+routerapi_pwd=
+router_password=
+router_user=
+router_route_service_secret=
+scim_dash_pwd=
+scim_dash_user=
+uaa_ace_secret=
+uaa_admin_client_secret=
+uaa_admin_ui_client_secret=
+uaa_batch_password=
+uaa_batch_username=
+uaa_cc_client_secret=
+uaa_cc_serv_broker_client_secret=
+uaa_cc_token_secret=
+uaa_client_secret=
+uaa_dashboard_secret=
+uaa_jtace_secret=
+uaa_login_client_secret=
+uaa_login_secret=
+uaa_portal_secret=
+uaa_support_services_secret=
+uaa_token_secret=
+uaadb_name=
+uaadb_password=
+vcap_redis_password=
+wal_nfs_evault_pwd=
+wal_nfs_evault_user=
+bosh_credential=
+bosh_credential_userid=
+bosh_credential_password=
+bosh_password=
+wal_nfs_backup_enc_password=
+#constants for logstash-forwarder
+lsf_space_id=
+lsf_space_pwd=
+lsf_env_name=
+lsf_delete_threshold=
+lsf_target_id=
+lsf_link_size_threshold_MB=
+lsf_marmot_resource_endpoint=
+lsf_decryption_code=
+%>
+
+name: <%=name%>
+
+director_uuid: <director uuid>
+
+releases:
+- name: <%=cf_release%>
+  version: <%=cf_release_version%>
+- name: <%=cf_services_release%>
+  version: <%=cf_services_release_version%>
+- name: <%=cf_services_contrib_release%>
+  version: <%=cf_services_contrib_release_version%>
+- name: admin-ui
+  version: 1.5.0-104
+- name: loginserver
+  version: 2.2-91
+- name: mrr_prod
+  version: 48
+- name: mrr_cons
+  version: 41
+- name: routerapi
+  version: 6
+- name: mccp
+  version: latest
+- name: habr
+  version: v1.10
+- name: ipsec-orchestrator
+  version: 3
+
+compilation:
+  workers: 20
+  network: default
+  reuse_compilation_vms: true
+  cloud_properties:
+    Bosh_ip:  <%=bosh_ip%>
+    StartCpus:  4
+    MaxMemory:  8192
+    EphemeralDiskSize: 25
+    HourlyBillingFlag: true
+    Datacenter: { Name:  <%=data_center%> }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
+    VmNamePrefix:  <%=name%>-worker-
+        
+update:
+  canaries: 1
+  canary_watch_time: 30000-360000
+  update_watch_time: 30000-360000
+  max_in_flight: 1
+  max_errors: 1
+  serial: true
+
+networks:
+- name: default
+  type: dynamic
+  dns:
+  - 10.112.116.214     # bosh directipr IP 
+  - 10.0.80.11
+  - 10.0.80.12
+  cloud_properties:
+    security_groups:
+    - default
+    - cf
+
+resource_pools:
+
+- name: coreNode
+  network: default
+  size: 13
+  stemcell:
+    name: light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    Bosh_ip: <%=bosh_ip%>
+    StartCpus:  4
+    MaxMemory:  8192
+    HourlyBillingFlag: true
+    Datacenter: { Name:  <%=data_center%> }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
+    VmNamePrefix:  <%=name%>-core-
+    EphemeralDiskSize: 25
+          
+- name: dbNode
+  network: default
+  size: 1
+  stemcell:
+    name: light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    Bosh_ip: <%=bosh_ip%>
+    StartCpus: 8
+    MaxMemory: 16384
+    HourlyBillingFlag: true
+    Datacenter: { Name: <%=data_center%> }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
+    VmNamePrefix:  <%=name%>-db-
+    EphemeralDiskSize: 25
+
+- name: errandsPool
+  network: default
+  stemcell:
+    name: light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    Bosh_ip: <%=bosh_ip%>
+    StartCpus:  4
+    MaxMemory:  8192
+    HourlyBillingFlag: true
+    Datacenter: { Name: <%=data_center%> }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
+    VmNamePrefix:  <%=name%>-errand-
+    EphemeralDiskSize: 25
+        
+- name: router
+  network: default
+  size: 2
+  stemcell:
+    name: light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    Bosh_ip: <%=bosh_ip%>
+    StartCpus: 4
+    MaxMemory: 8192
+    HourlyBillingFlag: true
+    Datacenter: { Name:  <%=data_center%> }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
+    VmNamePrefix: <%=name%>-router-
+    EphemeralDiskSize: 25
+
+- name: dea
+  network: default
+  size: 1
+  stemcell:
+    name: light-bosh-stemcell-3184.1-softlayer-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    Bosh_ip: <%=bosh_ip%>
+    StartCpus:  4
+    MaxMemory:  32768
+    HourlyBillingFlag: true
+    Datacenter: { Name:  <%=data_center%> }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
+    VmNamePrefix:  <%=name%>-dea-
+    EphemeralDiskSize: 100
+        
+- name: serviceGateway
+  network: default
+  size: 0
+  stemcell:
+    name: light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    Bosh_ip:  <%=bosh_ip%>
+    StartCpus:  4
+    MaxMemory:  8192
+    HourlyBillingFlag: true
+    Datacenter: { Name:  <%=data_center%> }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
+    VmNamePrefix:  <%=name%>-gateway-
+    EphemeralDiskSize: 25
+
+- name: serviceNode
+  network: default
+  size: 0
+  stemcell:
+    name: light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    Bosh_ip:  <%=bosh_ip%>
+    StartCpus:  4
+    MaxMemory:  8192
+    HourlyBillingFlag: true
+    Datacenter: { Name:  <%=data_center%> }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
+    VmNamePrefix:  <%=name%>-node-
+    EphemeralDiskSize: 25
+        
+- name: logger
+  network: default
+  size: 4
+  stemcell:
+    name: light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    Bosh_ip:  <%=bosh_ip%>
+    StartCpus:  4
+    MaxMemory:  8192
+    HourlyBillingFlag: true
+    Datacenter: { Name:  <%=data_center%> }
+    PrimaryNetworkComponent: { NetworkVlan: { Id:  <%=public_vlan_id%> } }
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id:  <%=private_vlan_id%> } }
+    VmNamePrefix:  <%=name%>-log-
+    EphemeralDiskSize: 25
+        
+
+disk_pools:
+- name: dp_large
+  disk_size: 20480
+  cloud_properties:
+    consistent_performance_iscsi: true
+
+- name: dp_medium
+  disk_size: 20480
+  cloud_properties:
+    consistent_performance_iscsi: true
+
+- name: dp_20G
+  disk_size: 20480
+  cloud_properties:
+    consistent_performance_iscsi: true
+
+- name: dp_100G
+  disk_size: 500000
+
+jobs:
+
+- name: ipsec-orchestrator
+  templates:
+  - name: ipsec-orchstr
+    release: ipsec-orchestrator
+  resource_pool: coreNode
+  instances: 1
+  networks:
+  - name: default
+    default: [dns, gateway]
+  properties:
+    networks:
+      apps: default
+
+- name: nfs_WAL_server
+  templates:
+  - name: debian_nfs_wal
+    release: habr
+  - name: mod_vms_no_prop
+    release: <%=cf_release%>
+  instances: 1
+  resource_pool: coreNode
+  persistent_disk_pool: dp_large
+  networks:
+  - name: default
+    default: [dns, gateway]
+  properties:
+    wal: wal_nfs_server
+    nfs_server:
+      no_root_squash: true
+      allow_from_entries:
+      - <ip>
+
+
+- name: nats
+  templates:
+  - name: nats
+    release: <%=cf_release%>
+  - name: mod_vms
+    release: <%=cf_release%>
+  - name: metron_agent
+    release: <%=cf_release%>
+  - name: logstash-forwarder
+    release: marmot-logstash-forwarder-bosh-release
+  - name: post-deploy
+    release: security-release
+  - name: monit-post-deploy
+    release: security-release  
+  instances: 1
+  resource_pool: coreNode
+  networks:
+  - name: default
+    default: [dns, gateway]
+  properties:
+    metron_agent:
+      zone: z1
+
+- name: ccdb
+  templates:
+  - name: postgres
+    release: <%=cf_release%>
+  - name: mod_vms
+    release: <%=cf_release%>
+  - name: metron_agent
+    release: <%=cf_release%>
+  - name: logstash-forwarder
+    release: marmot-logstash-forwarder-bosh-release
+  - name: post-deploy
+    release: security-release
+  - name: monit-post-deploy
+    release: security-release  
+  instances: 1
+  resource_pool: dbNode
+  persistent_disk_pool: dp_100G
+  networks:
+  - name: default
+    default: [dns, gateway]
+  properties:
+    metron_agent:
+      zone: z1
+    db: ccdb
+    databases:
+       port: 5524
+       address: 0.ccdb.default.<%=boshdns%>
+       databases: 
+       - tag: cc
+         name: appcloud
+         citext: true
+       - citext: false
+         name: repmgrdb
+         tag: cluster
+       pool_size: 10
+       roles:
+       - tag: admin
+         name: <%=ccdbng_name%>
+         password: <%=ccdb_password%>
+       - name: <%=ccdbng_bkp_name%>
+         password: <%=ccdbng_bkp_password%>
+         tag: replmgr
+       repl_mode: manualcluster
+
+- name: etcd
+  templates:
+  - name: etcd
+    release: <%=cf_release%>
+  - name: etcd_metrics_server
+    release: <%=cf_release%>
+  - name: mod_vms
+    release: <%=cf_release%>
+  - name: metron_agent
+    release: <%=cf_release%>
+  instances: 1
+  resource_pool: coreNode
+  persistent_disk_pool: dp_20G
+  networks:
+  - name: default
+  properties:
+    metron_agent:
+      zone: z1
+    networks:
+      apps: default
+
+- name: uaadb
+  db_scheme: postgresql
+  templates:
+  - name: postgres
+    release: <%=cf_release%>
+  - name: mod_vms
+    release: <%=cf_release%>
+  - name: metron_agent
+    release: <%=cf_release%>
+  - name: logstash-forwarder
+  instances: 1
+  resource_pool: coreNode
+  persistent_disk_pool: dp_20G
+  networks:
+  - name: default
+    default: [dns, gateway]
+  properties:
+    metron_agent:
+      zone: z1
+    db: uaadb
+    databases:
+       address: 0.uaadb.default.<%=boshdns%>
+       db_scheme: postgresql
+       port: 2544
+       databases:
+       - tag: uaa
+         name: uaa
+       - citext: false
+         name: repmgrdb
+         tag: cluster
+       roles:
+       - tag: admin
+         name: <%=uaadb_name%>
+         password: <%=uaadb_password%>
+       - name: <%=ccdbng_bkp_name%>
+         password: <%=ccdbng_bkp_password%>
+         tag: replmgr    # repl_mode can be:
+       repl_mode: manualcluster
+
+- name: uaa
+  templates:
+  - name: uaa
+    release: <%=cf_release%>
+  - name: mod_vms
+    release: <%=cf_release%>
+  - name: metron_agent
+    release: <%=cf_release%>
+  - name: route_registrar
+    release: <%=cf_release%>
+  - name: statsd-injector
+    release: <%=cf_release%>
+  instances: 1
+  resource_pool: coreNode
+  networks:
+  - name: default
+  properties:
+    metron_agent:
+      zone: z1
+    route_registrar:
+      routes:
+      - name: uaa
+        port: 8080
+        tags:
+          component: uaa
+        uris:
+        - uaa.<%=domain%>
+        - '*.uaa.<%=domain%>'
+    uaa:
+      proxy:
+        servers:
+        # Lookup router IP address for this deployment
+        - 10.113.109.153  # router/0
+
+- name: loggregator
+  templates:
+  - name: mod_vms
+    release: <%=cf_release%>
+  - name: doppler
+    release: <%=cf_release%>
+  - name: syslog_drain_binder   
+    release: <%=cf_release%>    
+  - name: metron_agent  
+    release: <%=cf_release%>    
+  instances: 1
+  resource_pool: logger
+  networks:
+  - name: default
+  properties:
+    networks:
+      apps: default
+    doppler:
+      zone: z1
+    metron_agent:
+      zone: z1  
+
+- name: loggregator_tc
+  templates:
+  - name: loggregator_trafficcontroller
+    release: <%=cf_release%>
+  - name: mod_vms
+    release: <%=cf_release%>
+  - name: metron_agent
+    release: <%=cf_release%>
+  - name: route_registrar
+    release: <%=cf_release%>
+  instances: 1
+  resource_pool: logger
+  networks:
+  - name: default
+  properties:
+    metron_agent:   
+      zone: z1
+    networks:
+      apps: default
+      management: default
+    route_registrar:
+      routes:
+      - name: doppler
+        port: 8081
+        uris:
+        - doppler.<%=domain%>
+      - name: loggregator
+        port: 8080
+        uris:
+        - loggregator.<%=domain%>
+    traffic_controller:
+      zone: z1
+
+- name: cloud_controller_ng
+  templates:
+  - name: cloud_controller_ng
+    release: <%=cf_release%>
+  - name: routing-api
+    release: <%=cf_release%>
+  - name: mod_vms
+    release: <%=cf_release%>
+  - name: metron_agent
+    release: <%=cf_release%>
+  - name: statsd-injector
+    release: <%=cf_release%>
+  - name: route_registrar
+    release: <%=cf_release%>
+  instances: 2
+  resource_pool: coreNode
+  networks:
+  - name: default
+  properties:
+    metron_agent:   
+      zone: z1
+    route_registrar:
+      routes:
+      - name: api
+        port: 9022
+        tags:
+          component: CloudController        
+        uris:
+        - api.<%=domain%>
+
+- name: clock_global
+  templates:
+  - name: cloud_controller_ng
+    release: <%=cf_release%>
+  - name: cloud_controller_clock
+    release: <%=cf_release%>
+  - name: mod_vms
+    release: <%=cf_release%>
+  - name: metron_agent
+    release: <%=cf_release%>
+  - name: route_registrar
+    release: <%=cf_release%>
+  instances: 1
+  resource_pool: coreNode
+  networks:
+  - name: default
+  persistent_disk_pool: dp_20G
+  properties:
+    metron_agent:   
+      zone: z1
+    route_registrar:
+      routes:
+      - name: api
+        port: 9022
+        tags:
+          component: CloudController
+        uris:
+        - api.<%=domain%>
+
+- name: api_worker
+  templates:
+  - name: cloud_controller_ng
+    release: <%=cf_release%>
+  - name: cloud_controller_worker
+    release: <%=cf_release%>
+  - name: mod_vms
+    release: <%=cf_release%>
+  - name: metron_agent
+    release: <%=cf_release%>
+  - name: nfs_mounter
+    release: <%=cf_release%>
+  - name: route_registrar
+    release: <%=cf_release%>
+  instances: 1
+  resource_pool: coreNode
+  networks:
+  - name: default
+  persistent_disk: 0
+  properties:
+    metron_agent:   
+      zone: z1
+    route_registrar:
+      routes:
+      - name: api
+        port: 9022
+        tags:
+          component: CloudController
+        uris:
+        - api.<%=domain%>
+
+- name: router
+  templates:
+  - name: gorouter
+    release: <%=cf_release%>
+  - name: mod_vms
+    release: <%=cf_release%>
+  - name: metron_agent
+    release: <%=cf_release%>
+  - name: ipsec-agent
+    release: ipsec-orchestrator
+  instances: 1
+  resource_pool: router
+  networks:
+  - name: default
+    default: [dns, gateway]
+  properties:
+    logging:
+      level: info
+    metron_agent:
+      zone: z1
+
+- name: ha_proxy
+  templates:
+  - name: haproxy
+    release: <%=cf_release%>
+  - name: mod_vms
+    release: <%=cf_release%>
+  - name: consul_agent    
+    release: <%=cf_release%>
+  instances: 1
+  resource_pool: router
+  networks:
+  - name: default
+    default: [dns, gateway]
+  properties:
+    ha_proxy:
+      ssl_pem: false
+    router:
+      servers:
+        z1:
+        - 0.router.default.<%=boshdns%>
+        z2:
+        - 0.router.default.<%=boshdns%>
+
+- name: services_nfs
+  templates:
+  - name: debian_nfs_server
+    release: <%=cf_release%>
+  - name: mod_vms
+    release: <%=cf_release%>
+  instances: 1
+  resource_pool: coreNode
+  networks:
+  - name: default
+    default: [dns, gateway]
+  persistent_disk_pool: dp_20G
+  properties:
+    nfs_server:
+      no_root_squash: true
+      allow_from_entries:
+      - <ip>    
+
+- name: hm9000
+  templates:
+  - name: hm9000
+    release: <%=cf_release%>
+  - name: mod_vms
+    release: <%=cf_release%>
+  - name: metron_agent
+    release: <%=cf_release%>
+  - name: route_registrar
+    release: <%=cf_release%>
+  instances: 1
+  resource_pool: coreNode
+  networks:
+  - name: default
+    default: [dns, gateway]
+  properties:
+    metron_agent:   
+      zone: z1
+    route_registrar:
+      routes:
+      - name: hm9000
+        port: 5155
+        tags:
+          component: HM9K        
+        uris:
+        - hm9000.<%=domain%>
+
+- name: admin_ui
+  templates:
+  - name: admin_ui_v2
+    release: admin-ui
+  - name: mod_vms
+    release: <%=cf_release%>
+  instances: 1
+  resource_pool: logger
+  persistent_disk_pool: dp_20G
+  networks:
+  - name: default
+    default: [dns, gateway]
+
+- name: loginserver
+  release: loginserver
+  templates: 
+  - name: loginserver
+  - name: mod_vms
+    release: <%=cf_release%>
+  instances: 1 
+  resource_pool: logger
+  persistent_disk_pool: dp_20G
+  networks:
+  - name: default
+    default: [dns, gateway]
+
+- name: dea_next
+  templates:
+  - name: dea_next
+    release: <%=cf_release%>
+  - name: dea_logging_agent
+    release: <%=cf_release%>
+  - name: mod_vms
+    release: <%=cf_release%>
+  - name: metron_agent  
+    release: <%=cf_release%>
+  - name: ipsec-agent
+    release: ipsec-orchestrator
+  instances: 1
+  resource_pool: dea
+  update:
+    max_in_flight: 1
+  networks:
+  - name: default
+  properties:
+    dea_next:
+      zone: z1
+      stacks:
+    metron_agent:
+      zone: z1
+
+- name: deploy-mccp
+  templates: 
+  - name: deploy-mccp
+    release: mccp
+  lifecycle: errand
+  instances: 1
+  resource_pool: errandsPool
+  networks:
+  - name: default
+
+- name: routerapi
+  release: routerapi
+  templates:
+  - name: routerapi
+  - name: mod_vms
+    release: <%=cf_release%>
+  instances: 1
+  resource_pool: coreNode
+  persistent_disk_pool: dp_20G
+  networks:
+  - name: default
+    default: [dns, gateway]
+
+properties:
+  name: Bluemix
+  build: <%=build%>
+  support_address: http://ibm.com
+  description: "IBM Bluemix"
+
+  system_domain_organization: org
+  system_domain: <%=domain%>
+  app_domains:
+  - <%=bmapps_domain%>
+  app_ssh: null  
+  domain: <%=domain%>
+  etcd:
+    machines:
+    - 0.etcd.default.<%=boshdns%>
+    # a221
+    peer_require_ssl: false
+    require_ssl: false
+  etcd_metrics_server:
+    nats:
+      machines:
+      - 0.nats.default.<%=boshdns%>
+      password: <%=nats_password%>
+      username: <%=nats_username%>
+
+  logstash-forwarder:
+    marmotResourceEndpoint: <%=lsf_marmot_resource_endpoint%>
+    decryptionCode: <%=lsf_decryption_code%>
+    target_id: <%=lsf_target_id%>
+    delThreshold: <%=lsf_delete_threshold%>
+    linkSizeThreshold: <%=lsf_link_size_threshold_MB%>
+    env_name: <%=lsf_env_name%>
+    space:
+      id: <%=lsf_space_id%>
+      password: <%=lsf_space_pwd%>
+
+  mod_vms:
+    target_env: yellow-staging
+    bosh_director: https://<%=bosh_ip%>:25555
+    bosh_credential: <%=bosh_credential%>
+    deployment: <%=name%>
+
+  networks:
+    apps: default
+
+  collector: null
+
+  consul:
+    agent_cert: |+
+      -----BEGIN CERTIFICATE-----
+      -----END CERTIFICATE-----
+    agent_key: |+
+      -----BEGIN RSA PRIVATE KEY-----
+      -----END RSA PRIVATE KEY-----
+    ca_cert: |+
+      -----BEGIN CERTIFICATE-----
+      -----END CERTIFICATE-----
+    encrypt_keys:
+    - Atzo3VBv+YVDzQAzlQRPRA==
+#    require_ssl: true
+    server_cert: |+
+      -----BEGIN CERTIFICATE-----
+      -----END CERTIFICATE-----
+    server_key: |+
+      -----BEGIN RSA PRIVATE KEY-----
+      -----END RSA PRIVATE KEY-----
+
+  login:
+    #url: http://uaa.<%=domain%>
+    url: http://login.<%=domain%>/UAALoginServerWAR
+    brand: oss
+    protocol: http
+
+  #######################################
+  # IPSec Orchestrator and Agent Settings
+  #######################################
+  ipsec_orchestrator:
+    auto_deploy: true
+
+    bosh_director_url: https://<%=bosh_ip%>:25555
+    bosh_director_userid: <%=bosh_credential_userid%>
+    bosh_director_password: <%=bosh_credential_password%>
+    bosh_fabric_name: <%=name%>
+
+    ipsec_encrypt_method: aes-ctr
+    ipsec_auth_method: hmac-sha256
+    ipsec_encrypt_key: <%=ipsec_encrypt_key%>
+    ipsec_auth_key: <%=ipsec_auth_key%>
+    ipsec_interface: eth1
+
+    orchstr_queue_time: 20
+    
+    max_deploy_attempts: 3
+    max_deploy_wait: 20
+    max_deploy_action: deny
+
+    orchstr_read_timeout: 60
+    agent_read_timeout: 300
+
+    logging_level: medium
+
+    orchstr_ip_address: 0.ipsec-orchestrator.default.<%=boshdns%>
+    orchstr_ssl_port: 7501
+    agent_ssl_port: 7502
+
+    ###############################################################################
+    # Create SSL certificate using the following command:
+    #   openssl genrsa -des3  -passout pass:secret -out server.key 2048
+    #   openssl req -new -key server.key -x509 -days 3650 -passin pass:secret \
+    #     -subj "/C=US/ST=NC/L=RTP/O=Bluemix/OU=Yellow Fabric/CN=IPSec Orchestrator" \
+    #     -out server.crt 
+    #   cat server.crt server.key > server.pem
+    ###############################################################################
+    ssl_cert_password: <%=ipsec_orchestrator_ssl_cert_password%>
+    ssl_cert_pem: |
+      -----BEGIN CERTIFICATE-----
+      -----END CERTIFICATE-----
+      -----BEGIN RSA PRIVATE KEY-----
+      -----END RSA PRIVATE KEY-----
+
+    # Either copy the above certificate here (for self signed certificates)
+    # or copy the certificate of the authority that signed above certificate
+    ssl_cacert_pem: |
+      -----BEGIN CERTIFICATE-----
+      -----END CERTIFICATE-----
+      -----BEGIN TRUSTED CERTIFICATE-----
+      -----END TRUSTED CERTIFICATE-----
+
+  metron_agent:
+    deployment: cf-warden  
+
+  metron_endpoint:
+    shared_secret: <%=uaa_login_secret%>
+    
+  nats:
+    user: <%=nats_username%>
+    password: <%=nats_password%>
+    address: 0.nats.default.<%=boshdns%>
+    machines: [0.nats.default.<%=boshdns%>]
+    port: 4222
+    monitor_port: 4221
+    prof_port: 0
+    use_gnatsd: true
+
+  service_broker:
+    external_uri: 0.service-broker.default.<%=boshdns%>
+    ip_route: localhost
+    index: 0
+    token: serviceToken
+    logging:
+      level: info
+    mbus: nats://0.nats.default.<%=boshdns%>:4222
+    cc_api_version: v2
+
+  traffic_controller:
+    outgoing_port: 8080
+
+  ccdb:
+    address: 0.ccdb.default.<%=boshdns%>
+    port: 5524
+    pool_size: 10
+    roles:
+    - tag: admin
+      name: <%=ccdbng_name%>
+      password: <%=ccdb_password%>
+    - name: <%=ccdbng_bkp_name%>
+      password: <%=ccdbng_bkp_password%>
+      tag: replmgr
+    repl_mode: manualcluster
+    databases:
+    - tag: cc
+      name: appcloud
+      citext: true
+    - citext: false
+      name: repmgrdb
+      tag: cluster
+    db_scheme: postgres
+
+  health_manager_ccng:
+    shadow_mode: disable
+    cc_partition: ng
+
+  hm9000:
+    fetcher_network_timeout_in_seconds: 31
+    sender_message_limit: 50
+    url: http://hm9000.<%=domain%>
+
+  uaadb:
+    address: 0.uaadb.default.<%=boshdns%>
+    port: 2544
+    db_scheme: postgresql
+    roles:
+    - tag: admin
+      name: <%=uaadb_name%>
+      password: <%=uaadb_password%>
+    - name: <%=ccdbng_bkp_name%>
+      password: <%=ccdbng_bkp_password%>
+      tag: replmgr    # repl_mode can be:
+    repl_mode: manualcluster
+    databases:
+    - tag: uaa
+      name: uaa
+    - citext: false
+      name: repmgrdb
+      tag: cluster
+
+  mccp:
+    type: public
+    customer: ibm
+    deployment: yf
+    geo: us-south
+    app_suffix: anil
+    app_domain: <%=domain%>
+    app_startWaitTime: 100
+    app_numOfInstances: 3
+    app_disk: 1024M
+    app_memory: 2048M
+    uaaOwner: true
+    accountManagementEnabled: false
+    cf:
+      adminUser: <admin user>
+      adminPassword: <%=password%>
+      loginOrg: <user>
+      loginSpace: dev
+      quota: q64GB
+
+  mrr:
+    log_level: DEBUG
+    amqp_user: 
+    amqp_pwd: 
+    amqp_url: 
+    amqp_url_1: 
+    amqp_port: 1884
+    topic: /updates/uaa
+    dump_topic: /dump/uaa/master
+    dump_size: 4M
+    dump_timeout: 10
+    delivery_timeout: 30
+    subscription_id: mrr-consumer
+    region_name: us-south
+
+  routerapi:
+    port: 1313
+    user: <%=routerapi_user%>
+    password: <%=routerapi_pwd%>
+    route: routerapi.<%=domain%>
+
+  cc:
+    admin_bootstrap_email: <%=ccng_admin_bootstrap_email%>
+    app_events:
+      cutoff_age_in_days: 36
+    app_usage_events:
+      cutoff_age_in_days: 36
+    audit_events:
+      cutoff_age_in_days: 36
+    failed_jobs:
+      cutoff_age_in_days: 7
+    broker_client_timeout_seconds: 70
+    bulk_api_password: <%=ccng_bulk_api_password%>
+    client_max_body_size: 15M
+    db_encryption_key: <%=ccng_db_encryption_key%>
+    default_fog_connection:
+      local_root: /var/vcap/nfs/shared
+    default_quota_definition: q2GB
+
+    default_running_security_groups:
+    - public_networks
+    - dns
+    default_staging_security_groups:
+    - public_networks
+    - dns    
+
+    default_to_diego_backend: false
+
+    external_host: api
+    external_port: 9022
+    external_protocol: http
+    install_buildpacks:
+    - name: staticfile_buildpack
+      package: buildpack_staticfile
+    - name: java_buildpack
+      package: buildpack_java
+    - name: ruby_buildpack
+      package: buildpack_ruby
+    - name: nodejs_buildpack
+      package: buildpack_nodejs
+    - name: go_buildpack
+      package: buildpack_go
+    - name: python_buildpack
+      package: buildpack_python
+    - name: php_buildpack
+      package: buildpack_php
+    - name: binary_buildpack
+      package: buildpack_binary
+    internal_api_password: <%=cc_internal_api_pwd%>
+    internal_api_user: <%=cc_internal_api_user%>
+    jobs:
+      app_bits_packer:
+        timeout_in_seconds: null
+      app_events_cleanup:
+        timeout_in_seconds: null
+      app_usage_events_cleanup:
+        timeout_in_seconds: null
+      blobstore_delete:
+        timeout_in_seconds: null
+      blobstore_upload:
+        timeout_in_seconds: null
+      droplet_deletion:
+        timeout_in_seconds: null
+      droplet_upload:
+        timeout_in_seconds: null
+
+      generic:
+        number_of_workers: null
+
+      global:
+        timeout_in_seconds: 14400
+      model_deletion:
+        timeout_in_seconds: null
+    logging_level: info
+    maximum_app_disk_in_mb: 2048
+    maximum_health_check_timeout: 180
+    min_cli_version: null
+    min_recommended_cli_version: null
+    packages:
+      app_package_directory_key: cc-packages
+      fog_connection:
+        provider: 'OpenStack'
+        openstack_username: <%=ccng_pkg_os_username%>
+        openstack_api_key: <%=ccng_pkg_os_api_key%>
+        openstack_auth_url: https://<%=data_center%>.objectstorage.service.networklayer.com/auth/v1.0/
+        openstack_temp_url_key: <%=ccng_pkg_os_temp_url_key%>
+        connection_options:
+          ssl_version: 'TLSv1'
+    droplets:
+      droplet_directory_key: cc-droplets
+      fog_connection:
+        provider: 'OpenStack'
+        openstack_username: <%=ccng_pkg_os_username%>
+        openstack_api_key: <%=ccng_pkg_os_api_key%>
+        openstack_auth_url: https://<%=data_center%>.objectstorage.service.networklayer.com/auth/v1.0/
+        openstack_temp_url_key: <%=ccng_pkg_os_temp_url_key%>
+        connection_options:
+          ssl_version: 'TLSv1'
+    resource_pool:
+      resource_directory_key: cc-resources
+      fog_connection:
+        provider: 'OpenStack'
+        openstack_username: <%=ccng_pkg_os_username%>
+        openstack_api_key: <%=ccng_pkg_os_api_key%>
+        openstack_auth_url: https://<%=data_center%>.objectstorage.service.networklayer.com/auth/v1.0/
+        openstack_temp_url_key: <%=ccng_pkg_os_temp_url_key%>
+        connection_options:
+          ssl_version: 'TLSv1'
+    buildpacks:
+      buildpack_directory_key: cc-buildpacks
+      fog_connection:
+        provider: 'OpenStack'
+        openstack_username: <%=ccng_pkg_os_username%>
+        openstack_api_key: <%=ccng_pkg_os_api_key%>
+        openstack_auth_url: https://<%=data_center%>.objectstorage.service.networklayer.com/auth/v1.0/
+        openstack_temp_url_key: <%=ccng_pkg_os_temp_url_key%>
+        connection_options:
+          ssl_version: 'TLSv1'
+    quota_definitions:
+      q2GB:
+        non_basic_services_allowed: false
+        total_services: 10
+        memory_limit: 2048
+        trial_db_allowed: true
+        total_routes: 500
+      q4GB:
+        non_basic_services_allowed: true
+        total_services: 20
+        memory_limit: 4096
+        total_routes: 500
+      q8GB:
+        non_basic_services_allowed: true
+        total_services: 40
+        memory_limit: 8192
+        total_routes: 500
+      q16GB:
+        non_basic_services_allowed: true
+        total_services: 80
+        memory_limit: 16384
+        total_routes: 1000
+      q32GB:
+        non_basic_services_allowed: true
+        total_services: 160
+        memory_limit: 32768
+        total_routes: 1000
+      q64GB:
+        non_basic_services_allowed: true
+        total_services: 320
+        memory_limit: 65536
+        total_routes: 1500
+      q128GB:
+        non_basic_services_allowed: true
+        total_services: 640
+        memory_limit: 131072
+        total_routes: 2000
+      q256GB:
+        non_basic_services_allowed: true
+        total_services: 1024
+        memory_limit: 262144
+        total_routes: 4000
+      q512GB:
+        non_basic_services_allowed: true
+        total_services: 1500
+        memory_limit: 524288
+        total_routes: 8000
+    renderer:
+      max_inline_relations_depth: 3
+    
+    security_group_definitions:
+    - name: public_networks
+      rules:
+      - destination: 0.0.0.0-9.255.255.255
+        protocol: all
+      - destination: 11.0.0.0-169.253.255.255
+        protocol: all
+      - destination: 169.255.0.0-172.15.255.255
+        protocol: all
+      - destination: 172.32.0.0-192.167.255.255
+        protocol: all
+      - destination: 192.169.0.0-255.255.255.255
+        protocol: all
+      #SL DNS
+      - destination: 10.0.80.12
+        protocol: all
+      #SL DNS
+      - destination: 10.0.80.11
+        protocol: all
+    - name: dns
+      rules:
+      - destination: 0.0.0.0/0
+        ports: "53"
+        protocol: tcp
+      - destination: 0.0.0.0/0
+        ports: "53"
+        protocol: udp
+    
+    srv_api_uri: http://api.<%=domain%>
+    default_stack: cflinuxfs2
+    stacks:
+    - name: cflinuxfs2
+      description: "Ubuntu 14.04.2 trusty"
+    staging_upload_user: <%=ccng_staging_upload_user%>
+    staging_upload_password: <%=ccng_staging_upload_password%>
+    # tasks_disabled: false
+    
+    # added in v189
+    thresholds:
+      api:
+        alert_if_above_mb: null
+        restart_if_above_mb: null
+        restart_if_consistently_above_mb: null
+      worker:
+        alert_if_above_mb: null
+        restart_if_above_mb: null
+        restart_if_consistently_above_mb: null
+
+  logger_endpoint:
+    use_ssl: false
+    port: 80
+  
+  loggregator:
+    incoming_port: 3456
+    outgoing_port: 8080
+    maxRetainedLogMessages: 100
+    outgoing_dropsonde_port: 8081
+    etcd:
+      machines:
+      - 0.etcd.default.<%=boshdns%>
+
+  loggregator_endpoint:
+    shared_secret: <%=uaa_login_secret%>
+    host: 0.loggregator-tc.default.<%=boshdns%>
+    port: 3456
+
+  vcap_redis:
+    address: 0.vcap-redis.default.<%=boshdns%>
+    port: 5454
+    password: <%=vcap_redis_password%>
+    maxmemory: 2000000000 # 2GB
+
+  router:
+    endpoint_timeout: 120
+    extra_headers_to_log: 
+    - x-global-transaction-id
+
+    # a217
+    logrotate: null
+    requested_route_registration_interval_in_seconds: 50
+    # a217
+    route_service_secret: <%=router_route_service_secret%>
+    route_service_secret_decrypt_only: null
+    # a217
+    route_service_timeout: null
+    logging:
+      level: info
+    status:
+      port: 8080
+      user: <%=router_user%>
+      password: <%=router_password%>
+
+  dashboard:
+    uaa:
+      client_id: <%=dashb_uaa_client_id%>
+      client_secret: <%=dashb_uaa_client_secret%>
+    users:
+      - [dash-user, dash-password]
+
+  dea:
+    max_memory: 8192
+
+  dea_next:
+    advertise_interval_in_seconds: 15
+    default_health_check_timeout: 60
+    heartbeat_interval_in_seconds: 15
+    directory_server_protocol: http
+    memory_mb: 32768
+    memory_overcommit_factor: 2
+    rlimit_core: -1
+    disk_mb: 290000
+    disk_overcommit_factor: 2
+    num_instances: 256
+    crash_lifetime_secs: 7210
+    evacuation_bail_out_time_in_seconds: 1200
+    staging_disk_inode_limit: 200000
+    instance_disk_inode_limit: 200000
+    logging_level: debug
+    staging_disk_limit_mb: 6144
+    mtu: 1400
+
+
+  doppler:
+    maxRetainedLogMessages: 100
+    port: 4443
+    unmarshaller_count: 5    
+  doppler_endpoint:
+    shared_secret: <%=uaa_login_secret%>
+
+  dropsonde:
+    enabled: true
+    
+  wal_nfs_server:
+    address: 0.nfs-WAL-server.default.<%=boshdns%>
+    path: /var/vcap/store/postgres_backup_store
+    # subnet: 0.0.0.0/0
+    db_ccdb_vipa: 0.ccdb.default.<%=boshdns%> # TBD FIXME
+    db_uaa_vipa: 0.uaadb.default.<%=boshdns%> # TBD FIXME
+    db_ccdb_port: <port> # TBD FIXME
+    db_uaa_port: <port> # TBD FIXME
+    ha_path: /var/vcap/store/HA
+    pgbouncer_uaa: false
+    pgbouncer_cc: false
+    backup_enc_password: <%=wal_nfs_backup_enc_password%>
+    evault_user: <%=wal_nfs_evault_user%>
+    evault_pwd: <%=wal_nfs_evault_pwd%>
+    wal_store: true
+    boshbackup: true
+    boshbackuppath: /var/vcap/store/postgres_backup_store/BACKUPDIR/backupDir/director_<%=bosh_ip%>_bkp/db_dump
+    boshbackuppolval: 150
+    boshbackuppolicy: backups
+    Bosh_ip:  <%=bosh_ip%>
+
+  hbase_master:
+    address: 0.hbase-master.default.<%=boshdns%>
+    hbase_master:
+      port: 60000
+      webui_port: 60010
+      heap_size: 1024
+    hbase_zookeeper:
+      heap_size: 1024
+    hadoop_namenode:
+      port: 9000
+
+  # opentsdb entry was gone from CF in 180, keep it?
+  opentsdb:
+    address: 0.opentsdb.default.<%=boshdns%>
+    port: 4242
+
+  request_timeout_in_seconds: 900
+
+  hbase_slave:
+    hbase_regionserver:
+      port: 60020
+      heap_size: 1024
+    addresses:
+    - 0.hbase-slave.default.<%=boshdns%>
+    - 1.hbase-slave.default.<%=boshdns%>
+    - 2.hbase-slave.default.<%=boshdns%>
+
+  service_plans:
+    mysql:
+      "100":
+        description: "Shared server, shared VM, 1MB memory, 10MB storage, 10 connections"
+        unique_id: ''
+        free: true
+        job_management:
+          high_water: 900
+          low_water: 100
+        configuration:
+          capacity: 500
+          max_db_size: 10
+          key_buffer: 512
+          innodb_buffer_pool_size: 512
+          max_allowed_packet: 16
+          thread_cache_size: 128
+          query_cache_size: 128
+          max_long_query: 3
+          max_long_tx: 30
+          max_clients: 10
+          max_connections: 1000
+          table_open_cache: 2000
+          innodb_tables_per_database: 50
+          connection_pool_size:
+            min: 5
+            max: 10
+          backup:
+            enable: true
+          lifecycle:
+            enable: true
+            serialization: enable
+            snapshot:
+              quota: 1
+          warden:
+            enable: false
+    postgresql:
+      "100":
+        description: ""
+        unique_id: ''
+        free: true
+        job_management:
+          high_water: 900
+          low_water: 100
+        configuration:
+          capacity: 200
+          max_db_size: 30
+          max_long_query: 3
+          max_long_tx: 10
+          max_clients: 20
+          max_connections: 1000
+          shared_buffers: 320
+          effective_cache_size: 1142
+          shmmax: 397410304
+          checkpoint_segments: 16
+          checkpoint_segments_max: 50
+          maintenance_work_mem: 30
+          backup:
+            enable: true
+          lifecycle:
+            enable: true
+            serialization: enable
+            snapshot:
+              quota: 1
+          warden:
+            enable: false
+    mongodb:
+      "100":
+        description: ""
+        unique_id: ''
+        free: true
+        job_management:
+          high_water: 230
+          low_water: 20
+        configuration:
+          capacity: 45
+          max_clients: 100
+          quota_files: 4
+          quota_data_size: 240
+          enable_journaling: true
+          backup:
+            enable: true
+          lifecycle:
+            enable: true
+            serialization: enable
+            snapshot:
+              quota: 1
+    redis:
+      "100":
+        description: ""
+        unique_id: ''
+        free: true
+        job_management:
+          high_water: 410
+          low_water: 40
+        configuration:
+          capacity: 220
+          max_memory: 20
+          memory_overhead: 20
+          max_clients: 50
+          persistent: true
+          backup:
+            enable: true
+          lifecycle:
+            enable: true
+            serialization: enable
+            snapshot:
+              quota: 1
+    rabbit:
+      "100":
+        description: ""
+        unique_id: ''
+        free: true
+        job_management:
+          high_water: 280
+          low_water: 20
+        configuration:
+          capacity: 25
+          max_disk: 10
+          max_clients: 10
+          vm_memory_high_watermark: 0.04
+          free_disk_low_water: 0.01832
+          bandwidth_quotas:
+            per_day: 1
+            per_second: 0.01
+          filesystem_quota: true
+
+  serialization_data_server:
+    upload_token: asdf9asd9asd9ad9ads9ads
+    use_nginx: true
+    upload_timeout: 10
+    port: 8080
+    upload_file_expire_time: 600
+    purge_expired_interval: 30
+
+  service_backup:
+    nfs_server:
+      address: 0.services-nfs.default.<%=boshdns%>
+      export_dir: /var/vcap/store/shared
+
+  service_migration:
+    nfs_server:
+      address: 0.services-nfs.default.<%=boshdns%>
+      export_dir: /var/vcap/store/shared
+
+  service_backup_manager:
+    enable: true
+
+  service_snapshot_manager:
+    enable: true
+
+  service_job_manager:
+    # enable: true
+
+  mysql_gateway:
+    token: serviceToken
+    default_plan: "100"
+    supported_versions: ["5.5"]
+    version_aliases:
+      current: "5.5"
+    cc_api_version: v2
+  mysql_node:
+    password: <%=mysql_node_password%>
+    supported_versions: ["5.5"]
+    default_version: "5.5"
+    max_tmp: 1024
+    op_time_limit: 15
+
+  redis_gateway:
+    token: serviceToken
+    default_plan: "100"
+    supported_versions: ["2.6"]
+    version_aliases:
+      current: "2.6"
+    cc_api_version: v2
+    node_timeout: 20
+  redis_node:
+    command_rename_prefix: foobar
+    supported_versions: ["2.6"]
+    default_version: "2.6"
+    op_time_limit: 60
+
+  mongodb_gateway:
+    token: serviceToken
+    default_plan: "100"
+    supported_versions: ["2.2","2.4"]
+    version_aliases:
+      current: "2.4"
+    cc_api_version: v2
+    node_timeout: 40
+  mongodb_node:
+    supported_versions: ["2.2","2.4"]
+    default_version: "2.4"
+    service_start_timeout: 30
+    max_tmp: 900
+    noscripting: false
+    op_time_limit: 60
+
+  rabbit_gateway:
+    token: serviceToken
+    default_plan: "100"
+    supported_versions: ["2.8"]
+    version_aliases:
+      current: "2.8"
+    cc_api_version: v2
+    node_timeout: 20
+  rabbit_node:
+    instance_parallel_start_count: 25
+    supported_versions: ["2.8"]
+    default_version: "2.8"
+    service_start_timeout: 30
+    op_time_limit: 60
+
+  postgresql_gateway:
+    token: serviceToken
+    supported_plan: "100"
+    supported_versions: ["9.1"]
+    version_aliases:
+      current: "9.1"
+    cc_api_version: v2
+    node_timeout: 20
+  postgresql_node:
+    supported_versions: ["9.1"]
+    default_version: "9.1"
+    password: <%=postgresql_node_password%>
+    op_time_limit: 60
+
+  syslog_drain_binder:
+    update_interval_seconds: 15
+    polling_batch_size: 110
+
+  adminui:
+    monitored_components:
+    - NATS
+    - CloudController
+    - DEA
+    - HealthManager
+    - Router
+    - -Provisioner
+    - ALL
+    receiver_emails:
+    - none@us.ibm.com
+    log_file_sftp_keys:
+    - /home/empty.pem
+    uaa_client:
+      id: admin_ui_client
+      secret: <%=uaa_admin_ui_client_secret%>
+    uaa_groups_admin: [admin_ui.admin]
+    uaa_groups_user: [admin_ui.user]
+    uaadb_uri: postgres://<%=uaadb_name%>:<%=uaadb_password%>@0.uaadb.default.<%=boshdns%>:2544/uaa
+    ccdb_uri: postgres://<%=ccdbng_name%>:<%=ccdb_password%>@0.ccdb.default.<%=boshdns%>:5524/appcloud
+
+  loginserver:
+    port: 80
+    myUrl: http://login.<%=domain%>/UAALoginServerWAR
+    jdk: IBM_JRE
+    authMethod: UAA
+    NG:
+    - type: UAA
+      id: UAA
+      default: true
+      UAA:
+        usersPattern: .*
+    sso:
+      secret: <%=loginserver_sso_secret%>
+      cookieSuffix: yf
+    localUAAUsers: <admin user>
+    localUAATestUsers: .*     
+    trialURL: https://ace.stage0.ng.bluemix.net/rest/oauth/login?state=https%3A%2F%2Face.stage0.ng.bluemix.net%2F
+    uaa_login: login
+    uaa_secret: <%=loginserver_uaa_secret%>
+    uaa_glyph: <%=loginserver_uaa_glyph%>
+    certificates:
+    - logstash: |
+                -----BEGIN CERTIFICATE-----
+                -----END CERTIFICATE-----
+    key: |
+         -----BEGIN PRIVATE KEY-----
+         -----END PRIVATE KEY-----
+         -----BEGIN CERTIFICATE-----
+         -----END CERTIFICATE-----
+                
+    auditingHostPort: 10.107.144.158:5517
+    auditingOverSSL: true
+    validRedirectDomains: localhost,bluemix.net,jazz.net,ibm.com,mybluemix.net,ibmcloud.com,bluforcloud.com,ihost.com,biginsightsforcloud.com
+    failOnInvalidRedirect: false
+
+  uaa:
+    catalina_opts: -Xmx768m -XX:MaxPermSize=256m
+    url: http://uaa.<%=domain%>
+    resource_id: account_manager
+    client_secret: <%=uaa_client_secret%>
+    cc:
+      token_secret: <%=uaa_cc_token_secret%>
+      client_secret: <%=uaa_cc_client_secret%>
+    admin:
+      client_secret: <%=uaa_admin_client_secret%>
+    login:
+      client_secret: <%=uaa_login_client_secret%>
+      addnew: false
+    batch:
+      username: <%=uaa_batch_username%>
+      password: <%=uaa_batch_password%>
+    client:
+      override: true
+      autoapprove:
+        - vmc
+        - my
+        - portal
+        - micro
+        - support-signon
+        - login
+        - cf
+    clients:
+      jtace:
+        scope: cloud_controller.read,cloud_controller.write,cloud_controller.admin,openid,password.write,scim.read,scim.write
+        secret: <%=uaa_jtace_secret%>
+        id: jtace
+        authorized-grant-types: authorization_code,refresh_token,client_credentials,password
+        authorities: cloud_controller.read,cloud_controller.write,cloud_controller.admin,openid,password.write,scim.read,scim.write
+        autoapprove: true
+      ace:
+        scope: cloud_controller.read,cloud_controller.write,cloud_controller.admin,openid,password.write,scim.read,scim.write
+        secret: <%=uaa_ace_secret%>
+        id: ace
+        authorized-grant-types: authorization_code,refresh_token,client_credentials,password
+        authorities: cloud_controller.read,cloud_controller.write,cloud_controller.admin,openid,password.write,scim.read,scim.write
+        autoapprove: true
+      dashboard:
+        secret: <%=uaa_dashboard_secret%>
+        scope: openid,dashboard.user
+        authorities: uaa.admin,uaa.resource,tokens.read,scim.read,scim.write
+        authorized-grant-types: client_credentials,authorization_code,refresh_token
+      doppler:
+        authorities: uaa.resource
+        override: true
+        secret: <%=doppler_secret%>
+      notifications:
+        authorities: cloud_controller.admin,scim.read
+        authorized-grant-types: client_credentials
+        secret: <%=uaa_dashboard_secret%>
+      portal:
+        override: true
+        id: portal
+        scope: scim.write,scim.read,openid,cloud_controller.read,cloud_controller.write
+        authorities: scim.write,scim.read,openid,cloud_controller.read,cloud_controller.write,password.write,uaa.admin
+        secret: <%=uaa_portal_secret%>
+        authorized-grant-types: authorization_code,client_credentials,password,implicit
+        access-token-validity: <token>
+        refresh-token-validity: <token>
+
+      vmc:
+        override: true
+        authorized-grant-types: implicit
+        authorities: uaa.none
+        scope: cloud_controller.read,cloud_controller.write,openid,password.write,cloud_controller.admin,scim.read,scim.write
+      cf:
+        override: true
+        authorized-grant-types: implicit,password,refresh_token
+        authorities: uaa.none
+        scope: cloud_controller.read,cloud_controller.write,openid,password.write,cloud_controller.admin,scim.read,scim.write
+
+      ldap: null
+      login:
+        id: loginserver
+        override: true
+        secret: <%=uaa_login_secret%>
+        authorized-grant-types: authorization_code,client_credentials,refresh_token
+        authorities: oauth.login,openid,scim.read,scim.write,scim.admin,cloud_controller.admin,uaa.resource,clients.read,notifications.write,critical_notifications.write,emails.write,scim.userids,password.write
+        scope: openid,scim.read,scim.write,scim.admin,cloud_controller.admin
+
+
+      cc-service-dashboards:
+        authorities: clients.read,clients.write,clients.admin
+        authorized-grant-types: client_credentials
+        scope: openid,cloud_controller_service_permissions.read
+        secret: <%=uaa_cc_serv_broker_client_secret%> 
+
+      cloud_controller_username_lookup: 
+        authorities: scim.userids       
+        authorized-grant-types: client_credentials      
+        secret: <%=cc_username_lookup_secret%>
+        
+      cc_routing:
+        authorities: routing.router_groups.read
+        authorized-grant-types: client_credentials
+        secret: <%=cc_username_lookup_secret%>
+        
+      admin_ui_client:
+        scope: admin_ui.admin,admin_ui.user,openid
+        secret: <%=uaa_admin_ui_client_secret%>
+        id: admin_ui_client
+        authorized-grant-types: authorization_code,client_credentials,refresh_token
+        authorities: cloud_controller.admin,cloud_controller.read,cloud_controller.write,openid,scim.read
+        autoapprove: true  
+        
+      gorouter:
+        authorities: clients.read,clients.write,clients.admin,routing.routes.write,routing.routes.read
+        authorized-grant-types: client_credentials,refresh_token
+        scope: openid,cloud_controller_service_permissions.read
+        secret: <%=router_password%>
+
+    require_https: false
+    issuer: <%=bluemix_uaa_master_issuer_uri%>
+    jwt:
+      verification_key: '-----BEGIN PUBLIC KEY-----
+        -----END PUBLIC KEY-----
+'
+
+    scim:
+      external_groups: null
+      userids_enabled: true
+      users:
+      - <%=main_user_name%>|<%=password%>|scim.write,scim.read,openid,cloud_controller.admin,clients.read,clients.write,doppler.firehose,notification_templates.admin,notification_templates.admin,routing.router_groups.read
+      - <%=scim_dash_user%>|<%=scim_dash_pwd%>|openid,dashboard.user
+    spring_profiles: null
+    user: null
+
