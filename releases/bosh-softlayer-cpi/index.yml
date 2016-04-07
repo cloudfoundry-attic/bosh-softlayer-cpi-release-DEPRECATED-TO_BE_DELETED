@@ -10,4 +10,6 @@ builds:
     version: '7'
   31ab94a6-23a3-4840-87e0-1e8aab924a9c:
     version: '11'
+  a1f094ae-499c-414f-a530-652cdab44299:
+    version: 1.49.0
 format-version: '2'
