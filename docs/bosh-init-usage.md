@@ -1,8 +1,8 @@
-## Experimental `bosh-init` usage
+## Experimental `bosh-init` usage on SoftLayer
 
 At present, it is able to creat and update bosh environment on SoftLayer by bosh-init and bosh-softlayer-cpi
 
-This document shows how to initialize new environment on Softlayer.
+This document shows how to initialize new environment on SoftLayer.
 
 0. Create a deployment directory, install bosh-init
 
