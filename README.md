@@ -8,8 +8,6 @@
 
 This is a BOSH release for the Softlayer CPI.
 
-See [Initializing a BOSH environment on OpenStack](https://bosh.io/docs/init-openstack.html) for example usage.
-
 ## Development
 
 See [development doc](docs/development.md).
