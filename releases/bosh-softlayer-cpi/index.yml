@@ -18,4 +18,6 @@ builds:
     version: '11'
   8ba6060d-1134-4150-9445-55f1860e8dae:
     version: '13'
+  e80cf053-6e00-43c2-8a8d-930576262beb:
+    version: 2.1.0
 format-version: '2'
