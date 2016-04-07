@@ -50,9 +50,6 @@ resource_pools:
 disk_pools:
 - name: disks
   disk_size: 40_000
-  cloud_properties:
-    consistent_performance_iscsi: true
-
 
 networks:
 - name: default
