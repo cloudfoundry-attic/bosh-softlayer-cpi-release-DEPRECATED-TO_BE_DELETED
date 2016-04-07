@@ -8,6 +8,14 @@
 
 This is a BOSH release for the Softlayer CPI.
 
+## BOSH bootstrap on SoftLayer
+
+see [bosh-init-usage doc](docs/bosh-init-usage.md).
+
+## Deployment Manifest Schema Sample:
+
+see []
+
 ## Development
 
 See [development doc](docs/development.md).
