@@ -1,4 +1,4 @@
-# BOSH Softlayer CPI Release for Bosh V2
+# BOSH Softlayer CPI Release for BOSH V2
 
 * Documentation: [bosh.io/docs](https://bosh.io/docs)
 * IRC: [`#bosh` on freenode](https://webchat.freenode.net/?channels=bosh)
