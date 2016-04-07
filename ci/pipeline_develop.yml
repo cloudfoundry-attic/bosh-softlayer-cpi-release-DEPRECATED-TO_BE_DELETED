@@ -127,11 +127,11 @@ resources:
 - name: release-version-semver
   type: semver
   source:
-    key:               release-current-version
+    key:               release-version-v1
     bucket:            {{s3_pipeline_bucket}}
     access_key_id:     {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
-    initial_version: 1.0.0
+    initial_version: 1.48.0
 
 - name: bosh-release
   type: s3

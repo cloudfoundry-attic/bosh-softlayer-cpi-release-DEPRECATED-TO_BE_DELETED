@@ -1,6 +1,6 @@
 ---
 groups:
-  - name: bosh-softlayer-cpi-release
+  - name: bosh-softlayer-cpi-release-v1
     jobs:
       - build-candidate
       - bats-ubuntu
@@ -37,27 +37,25 @@ jobs:
 
   - task: setup-director
     file: bosh-cpi-release/ci/tasks/setup-director.yml
-    config:
-      params:
-        BASE_OS:                    ubuntu
-        SL_USERNAME:                {{softlayer_username}}
-        SL_API_KEY:                 {{softlayer_api_key}}
-        SL_DATACENTER:              {{softlayer_datacenter}}
-        SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
-        SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
-        SL_VM_NAME_PREFIX:          {{softlayer_director_name_prefix}}
+    params:
+      BASE_OS:                    ubuntu
+      SL_USERNAME:                {{softlayer_username}}
+      SL_API_KEY:                 {{softlayer_api_key}}
+      SL_DATACENTER:              {{softlayer_datacenter}}
+      SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
+      SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
+      SL_VM_NAME_PREFIX:          {{softlayer_director_name_prefix}}
 
   - task: run-bats
     file: bosh-cpi-release/ci/tasks/run-bats.yml
-    config:
-      params:
-        BASE_OS:                    ubuntu
-        BAT_VCAP_PASSWORD:          {{bat_vcap_password}}
-        BAT_SECOND_STATIC_IP:       {{bat_second_static_ip}}
-        SL_DATACENTER:              {{softlayer_datacenter}}
-        SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
-        SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
-        SL_VM_NAME_PREFIX:          {{softlayer_bats_name_prefix}}
+    params:
+      BASE_OS:                    ubuntu
+      BAT_VCAP_PASSWORD:          {{bat_vcap_password}}
+      BAT_SECOND_STATIC_IP:       {{bat_second_static_ip}}
+      SL_DATACENTER:              {{softlayer_datacenter}}
+      SL_VLAN_PUBLIC:             {{softlayer_vlan_public}}
+      SL_VLAN_PRIVATE:            {{softlayer_vlan_private}}
+      SL_VM_NAME_PREFIX:          {{softlayer_bats_name_prefix}}
 
   - task: teardown-director
     file: bosh-cpi-release/ci/tasks/teardown-director.yml
@@ -71,10 +69,9 @@ jobs:
 
   - task: promote
     file: bosh-cpi-release/ci/tasks/promote-candidate.yml
-    config:
-      params:
-        S3_ACCESS_KEY_ID:     {{s3_access_key__primary}}
-        S3_SECRET_ACCESS_KEY: {{s3_secret_key__primary}}
+    params:
+      S3_ACCESS_KEY_ID:     {{s3_access_key__primary}}
+      S3_SECRET_ACCESS_KEY: {{s3_secret_key__primary}}
 
   - put: bosh-cpi-release-out
     params: {repository: promoted/repo, rebase: true, tag_prefix: "v", tag: promoted/integer_version}
@@ -106,7 +103,7 @@ resources:
   type: git
   source:
     uri: git@github.com:jianqiu/bosh-softlayer-cpi-release.git
-    branch: master
+    branch: develop_v1
     private_key: {{github_promote_private_key}}
     ignore_paths:
         - .final_builds/**/*.yml
