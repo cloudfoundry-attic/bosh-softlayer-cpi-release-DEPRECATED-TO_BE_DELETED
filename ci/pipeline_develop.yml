@@ -102,8 +102,8 @@ resources:
 - name: bosh-cpi-release-in
   type: git
   source:
-    uri: git@github.com:jianqiu/bosh-softlayer-cpi-release.git
-    branch: develop_v1
+    uri: git@github.com:cloudfoundry-incubator/bosh-softlayer-cpi-release.git
+    branch: master
     private_key: {{github_promote_private_key}}
     ignore_paths:
         - .final_builds/**/*.yml
@@ -112,8 +112,8 @@ resources:
 - name: bosh-cpi-release-out
   type: git
   source:
-    uri: git@github.com:jianqiu/bosh-softlayer-cpi-release.git
-    branch: develop_v1
+    uri: git@github.com:cloudfoundry-incubator/bosh-softlayer-cpi-release.git
+    branch: master
     private_key: {{github_promote_private_key}}
 
 - name: version-semver
