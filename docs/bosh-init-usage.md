@@ -19,20 +19,21 @@ mkdir my-bosh-init
 name: bosh
 
 releases:
+releases:
 - name: bosh
-  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=219
-  sha1: bbd03790a2839aab26d3fa4cfe1493d361872f33
-- name: bosh-softlayer-cpi
-  url: file://./bosh-softlayer-cpi-0+dev.1.tgz
-
+  url: file://./bosh-236+dev.12.tgz 
+- name: bosh-softlayer-cpi-release
+  url: file://./bosh-softlayer-cpi-1.49.0.tgz
+  
 resource_pools:
 - name: vms
   network: default
   stemcell:
-    url: file://./light-bosh-stemcell-3031-softlayer-esxi-ubuntu-trusty-go_agent.tgz
+    url: file://./light-bosh-stemcell-3215-softlayer-esxi-ubuntu-trusty-go_agent.tgz
   cloud_properties:
-    Domain: SOFTLAYER.COM      # <--- domain name for new director
-    VmNamePrefix: VMNAMEPREFIX # <--- indicate a hostname prefix for new director
+    Domain: softlayer.com
+    VmNamePrefix: bosh-softlayer
+    EphemeralDiskSize: 100
     StartCpus: 4
     MaxMemory: 8192
     Datacenter:
@@ -40,25 +41,25 @@ resource_pools:
     HourlyBillingFlag: true
     PrimaryNetworkComponent:
        NetworkVlan:
-          Id: 524956
+          Id: <pub vlan>
     PrimaryBackendNetworkComponent:
        NetworkVlan:
-          Id: 524954
+          Id: <pri vlan>
     NetworkComponents:
     - MaxSpeed: 1000
-
 disk_pools:
 - name: disks
   disk_size: 40_000
   cloud_properties:
     consistent_performance_iscsi: true
 
+
 networks:
 - name: default
   type: dynamic
-  dns:
+  dns: 
   - 8.8.8.8
-  
+
 jobs:
 - name: bosh
   instances: 1
@@ -71,7 +72,7 @@ jobs:
   - {name: director, release: bosh}
   - {name: health_monitor, release: bosh}
   - {name: powerdns, release: bosh}
-  - {name: cpi, release: bosh-softlayer-cpi}
+  - {name: softlayer_cpi, release: bosh-softlayer-cpi}
 
   resource_pool: vms
   persistent_disk_pool: disks
@@ -108,14 +109,14 @@ jobs:
       address: 127.0.0.1
       director:
         user: director
-        password: director
+        password: <password>
       agent:
         user: agent
-        password: agent
+        password: <password>
       port: 25250
       provider: dav
     director:
-      cpi_job: cpi
+      cpi_job: softlayer_cpi
       address: 127.0.0.1
       name: bosh
       db:
@@ -131,7 +132,7 @@ jobs:
         port: 25923
       director_account:
         user: admin
-        password: Cl0udyWeather
+        password: <password>
       intervals:
         log_stats: 300
         agent_timeout: 180
@@ -150,72 +151,38 @@ jobs:
         port: 8081
         address: 0.0.0.0
     softlayer: &softlayer
-      username: fake-username # <--- Replace with username
-      apiKey: fake-api-key    # <--- Replace with api-key
+      username: <sl_key_user> # <--- Replace with username
+      apiKey: <sl_api_key> # <--- Replace with password
 
-    cpi:
-      agent:
-        mbus: nats://nats:nats@127.0.0.1:4222
-        ntp: []
-        blobstore:
-          provider: dav
-          options:
-            endpoint: http://127.0.0.1:25250
-            user: agent
-            password: agent
+    agent: {mbus: "nats://nats:nats@127.0.0.1:4222"}
 
     ntp: &ntp []
-
+ 
 cloud_provider:
-  template: {name: cpi, release: bosh-softlayer-cpi}
-  mbus: "https://admin:admin@VMNAMEPREFIX.SOFTLAYER.COM:6868" # <--- Replace with a hostname of new director in advance
+  template: {name: softlayer_cpi, release: bosh-softlayer-cpi}
+
+  # Tells bosh-init how to contact remote agent
+  mbus: https://admin:admin@bosh-softlayer.softlayer.com:6868
 
   properties:
     softlayer: *softlayer
-    cpi:
-      agent:
-        mbus: https://admin:admin@127.0.0.1:6868
-        ntp: *ntp
-        blobstore:
-          provider: local
-          options:
-            blobstore_path: /var/vcap/micro_bosh/data/cache
-```
-3. Prepare a new bosh-agent and stemcell for eCPI
-   please use the version of http://github.com/mattcui/bosh-agent bm_beta branch in softlayer stemcell
-   agent.json should be as follows in softlayer stemcell
 
-```    
-{
-  "Platform": {
-    "Linux": {
-      "CreatePartitionIfNoEphemeralDisk": false
-    }
-  },
-  "Infrastructure": {
-    "Settings": {
-      "DevicePathResolutionType": "virtio",
-      "NetworkingType": "manual",
-      "Sources": [
-        {
-          "Type": "File",
-          "SettingsPath": "/var/vcap/bosh/user_data.json"
-        }
-      ],
-      "UseRegistry": true
-    }
-  }
-} 
-```
- create a directory /var/vcap/bosh/micro_bosh in stemcell for local blobstore of bosh-agent
+    # Tells CPI how agent should listen for bosh-init requests
+    agent: {mbus: "https://admin:admin@bosh-softlayer.softlayer.com:6868"}
 
-4. Set deployment
+    blobstore: {provider: local, path: /var/vcap/micro_bosh/data/cache}
+
+    ntp: *ntp
+
+```
+
+2. Set deployment
 
 ```
 bosh-init deployment bosh.yml
 ```
 
-5. Kick off a deploy
+3. Kick off a deploy
 
 ```
 bosh-init deploy bosh.yml
