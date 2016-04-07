@@ -1,6 +1,6 @@
 ---
 groups:
-  - name: bosh-softlayer-cpi-release-v1
+  - name: bosh-softlayer-cpi-release-v2
     jobs:
       - build-candidate
       - bats-ubuntu
@@ -103,7 +103,7 @@ resources:
   type: git
   source:
     uri: git@github.com:jianqiu/bosh-softlayer-cpi-release.git
-    branch: develop_v1
+    branch: develop_v2
     private_key: {{github_promote_private_key}}
     ignore_paths:
         - .final_builds/**/*.yml
@@ -113,7 +113,7 @@ resources:
   type: git
   source:
     uri: git@github.com:jianqiu/bosh-softlayer-cpi-release.git
-    branch: develop_v1
+    branch: develop_v2
     private_key: {{github_promote_private_key}}
 
 - name: version-semver
@@ -131,7 +131,7 @@ resources:
     bucket:            {{s3_pipeline_bucket}}
     access_key_id:     {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
-    initial_version: 1.48.0
+    initial_version: 2.0.0
 
 - name: bosh-release
   type: s3
