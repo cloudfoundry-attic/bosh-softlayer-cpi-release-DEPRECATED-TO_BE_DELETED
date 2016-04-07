@@ -1,15 +1,5 @@
 ---
 builds:
-  3932b247-24e4-4ebb-874d-19be027914e2:
-    version: '1'
-  af694b18-9a46-47b1-9344-7096b057b36e:
-    version: '2'
-  3eacc172-7ec2-44d4-9cc1-19e83ac2352f:
-    version: '3'
-  8bb8036e-28b6-4bb4-bc07-87b15841242c:
-    version: '7'
-  31ab94a6-23a3-4840-87e0-1e8aab924a9c:
-    version: '11'
   a1f094ae-499c-414f-a530-652cdab44299:
     version: 1.49.0
 format-version: '2'
