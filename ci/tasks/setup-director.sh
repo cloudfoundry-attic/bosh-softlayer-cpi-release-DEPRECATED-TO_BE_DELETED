@@ -132,6 +132,7 @@ jobs:
         host: 127.0.0.1
         password: postgres
         user: postgres
+      enable_virtual_delete_vms: true
     hm:
       http:
         user: hm
