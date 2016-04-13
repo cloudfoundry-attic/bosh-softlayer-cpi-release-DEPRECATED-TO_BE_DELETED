@@ -137,7 +137,7 @@ resources:
   type: s3
   source:
       bucket: bosh-softlayer-cpi-stemcells
-      regexp: bosh-255\+dev\.([0-9.]+)\.tgz
+      regexp: bosh-255.8\+dev\.([0-9.]+)\.tgz
       access_key_id: {{s3_access_key_id}}
       secret_access_key: {{s3_secret_access_key}}
 
