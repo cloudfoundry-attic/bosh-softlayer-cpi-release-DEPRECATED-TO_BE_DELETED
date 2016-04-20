@@ -21,15 +21,15 @@ name: bosh
 releases:
 releases:
 - name: bosh
-  url: file://./bosh-236+dev.12.tgz 
+  url: file://./bosh-255.8+dev.4.tgz  # https://s3.amazonaws.com/bosh-softlayer-cpi-stemcells/bosh-255.8%2Bdev.4.tgz
 - name: bosh-softlayer-cpi-release
-  url: file://./bosh-softlayer-cpi-1.49.0.tgz
+  url: file://./bosh-softlayer-cpi-2.2.0.tgz # https://s3.amazonaws.com/bosh-softlayer-cpi-pipeline/bosh-softlayer-cpi-2.2.0.tgz
   
 resource_pools:
 - name: vms
   network: default
   stemcell:
-    url: file://./light-bosh-stemcell-3215-softlayer-esxi-ubuntu-trusty-go_agent.tgz
+    url: file://./light-bosh-stemcell-3215-softlayer-esxi-ubuntu-trusty-go_agent.tgz 
   cloud_properties:
     Domain: softlayer.com
     VmNamePrefix: bosh-softlayer
@@ -122,6 +122,7 @@ jobs:
         host: 127.0.0.1
         password: postges
         user: postgres
+      enable_virtual_delete_vms: true
     hm:
       http:
         user: hm
