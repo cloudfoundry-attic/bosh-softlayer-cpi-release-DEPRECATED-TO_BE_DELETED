@@ -1,9 +1,9 @@
 # BOSH Softlayer CPI Release for BOSH V1
 
 * Documentation: [bosh.io/docs](https://bosh.io/docs)
-* IRC: [`#bosh` on freenode](https://webchat.freenode.net/?channels=bosh)
+* Slack: [#bosh-softlayer-cpi](https://cloudfoundry.slack.com/messages/bosh-softlayer-cpi)
 * Mailing list: [cf-bosh](https://lists.cloudfoundry.org/pipermail/cf-bosh)
-* CI: <https://main.bosh-ci.cf-app.com/pipelines/bosh-openstack-cpi>
+* CI: <http://159.122.236.143:8080/pipelines/bosh-softlayer-cpi-release-v2>
 * Roadmap: [Pivotal Tracker](https://www.pivotaltracker.com/n/projects/1344876)
 
 This is a BOSH release for the SoftLayer CPI.
