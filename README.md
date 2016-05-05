@@ -9,15 +9,15 @@
 
 ## Releases
 
-This is a BOSH release dedicated for the Softlayer CPI Release V1: [[BOSH 236](https://s3.amazonaws.com/bosh-softlayer-cpi-stemcells/bosh-236%2Bdev.12.tgz)]
+This is a BOSH release dedicated for the Softlayer CPI Release V1: [bosh 236](https://s3.amazonaws.com/bosh-softlayer-cpi-stemcells/bosh-236%2Bdev.12.tgz)
 
 The latest version for the SoftlLayer CPI release is here. Also, find it on [bosh.io](http://bosh.io).
 
-To use this CPI you will need to use the SoftLayer light stemcell. Latest version: [[3169](https://s3.amazonaws.com/bosh-softlayer-cpi-stemcells/light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent.tgz))]. Also, find it on [bosh.io](http://bosh.io).
+To use this CPI you will need to use the SoftLayer light stemcell. Latest version:  [3169](https://s3.amazonaws.com/bosh-softlayer-cpi-stemcells/light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent.tgz). Also, find it on [bosh.io](http://bosh.io).
 
 ## Bootstrap on SoftLayer
 
-There is a bosh-init release specific for Softlayer CPI Release V1: [[bosh-init-0.0.81-linux-amd64-for-softlayer-cpi](https://s3.amazonaws.com/bosh-softlayer-cpi-stemcells/bosh-init-0.0.81-linux-amd64]
+There is a bosh-init release specific for Softlayer CPI Release V1: [bosh-init-0.0.81-linux-amd64-for-softlayer-cpi](https://s3.amazonaws.com/bosh-softlayer-cpi-stemcells/bosh-init-0.0.81-linux-amd64)
 
 See [bosh-init-usage](docs/bosh-init-usage.md). Use the CPI and stemcells releases above to do so.
 
