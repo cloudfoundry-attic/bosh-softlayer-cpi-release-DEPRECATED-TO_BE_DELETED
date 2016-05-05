@@ -4,7 +4,7 @@
 * BOSH Slack channel: [#bosh](https://cloudfoundry.slack.com/archives/bosh)
 * BOSH SoftLayer CPI Slack channel: [#bosh-softlayer-cpi](https://cloudfoundry.slack.com/archives/bosh-softlayer-cpi)
 * Mailing list: [cf-bosh](https://lists.cloudfoundry.org/pipermail/cf-bosh)
-* CI: <https://main.bosh-ci.cf-app.com/pipelines/bosh-openstack-cpi>
+* CI: <http://159.122.236.143:8080/pipelines/bosh-softlayer-cpi-release-v2>
 * Roadmap: [Pivotal Tracker](https://www.pivotaltracker.com/n/projects/1344876)
 
 ## Releases
@@ -22,7 +22,5 @@ See [bosh-init-usage](docs/bosh-init-usage.md). Use the CPI and stemcells releas
 ## Deployment Manifests Samples
 
 For Cloud Config, see [sl-cloud-config](docs/sl-cloud-config.yml)
-
-For CloudFoundry, see [cf-deployment-manifest](docs/cf_deployment_sl_sample_v1_schema.yml)
 
 For Concourse, see [concourse-deployment-manifest](docs/concourse_sample_v2_schema.yml)
