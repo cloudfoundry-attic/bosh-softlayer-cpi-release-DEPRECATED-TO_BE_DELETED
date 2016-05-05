@@ -17,6 +17,8 @@ To use this CPI you will need to use the SoftLayer light stemcell. Latest versio
 
 ## Bootstrap on SoftLayer
 
+There is a bosh-init release specific for Softlayer CPI release v1: [bosh-init-0.0.81-linux-amd64-for-softlayer-cpi](https://s3.amazonaws.com/dev-bosh-softlayer-cpi-stemcells/bosh-init-0.0.81-linux-amd64)
+
 See [bosh-init-usage](docs/bosh-init-usage.md). Use the CPI and stemcells releases above to do so.
 
 ## Deployment Manifests Samples
