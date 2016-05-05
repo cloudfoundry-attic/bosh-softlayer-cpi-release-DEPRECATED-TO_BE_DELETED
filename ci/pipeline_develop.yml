@@ -112,7 +112,7 @@ resources:
 - name: bosh-cpi-release-out
   type: git
   source:
-    uri: git@github.com:cloudfoundry-incubator//bosh-softlayer-cpi-release.git
+    uri: git@github.com:cloudfoundry-incubator/bosh-softlayer-cpi-release.git
     branch: develop_v2
     private_key: {{github_promote_private_key}}
 
@@ -127,7 +127,7 @@ resources:
 - name: release-version-semver
   type: semver
   source:
-    key:               release-version-v1
+    key:               release-version-v2
     bucket:            {{s3_pipeline_bucket}}
     access_key_id:     {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
@@ -145,7 +145,7 @@ resources:
   type: s3
   source:
     regexp: bosh-init-([0-9.]+)-linux-amd64
-    bucket: bosh-softlayer-cpi-stemcells
+    bucket: dev-bosh-softlayer-cpi-stemcells
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
 
@@ -153,7 +153,7 @@ resources:
   type: git
   source:
     uri: git@github.com:jianqiu/bosh-acceptance-tests.git
-    branch: master
+    branch: bosh_v2
     private_key: {{github_promote_private_key}}
 
 - name: softlayer-ubuntu-stemcell
