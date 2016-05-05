@@ -19,7 +19,7 @@ To use this CPI you will need to use the SoftLayer light stemcell. Latest versio
 
 ## Bootstrap on SoftLayer
 
-There is a bosh-init release specific for Softlayer CPI Release V1
+There is a bosh-init release specific for Softlayer CPI Release V1:
 
 [bosh-init-0.0.81-linux-amd64-for-softlayer-cpi](https://s3.amazonaws.com/bosh-softlayer-cpi-stemcells/bosh-init-0.0.81-linux-amd64)
 
@@ -27,7 +27,8 @@ See [bosh-init-usage](docs/bosh-init-usage.md). Use the CPI and stemcells releas
 
 ## Deployment Manifests Samples
 
-For Concourse, see [concourse-deployment-manifest](docs/concourse_sample_v1_schema.yml)
+For concourse, see [concourse-deployment-manifest](docs/concourse_sample_v1_schema.yml).
 
 ## Bosh Softlayer Stemcell:
+
 [light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent](https://s3.amazonaws.com/bosh-softlayer-cpi-stemcells/light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent.tgz)
