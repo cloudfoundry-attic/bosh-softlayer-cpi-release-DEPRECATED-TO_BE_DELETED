@@ -21,6 +21,8 @@ See [bosh-init-usage](docs/bosh-init-usage.md). Use the CPI and stemcells releas
 
 ## Deployment Manifests Samples
 
-For CloudFoundry, see [cf-deployment-manifest](docs/cf_deployment_sl_sample.yml)
+For Cloud Config, see [sl-cloud-config](docs/sl-cloud-config.yml)
 
-For Concourse, see [concourse-deployment-manifest]()
+For CloudFoundry, see [cf-deployment-manifest](docs/cf_deployment_sl_sample_v1_schema.yml)
+
+For Concourse, see [concourse-deployment-manifest](docs/concourse_sample_v2_schema.yml)

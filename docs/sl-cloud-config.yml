@@ -1,0 +1,48 @@
+azs:
+- name: az1
+  cloud_properties:
+    # replace with datacenter name, e.g. lon02
+    Datacenter: { Name: REPLACE_ME }
+    # replace with your public vlan id, e.g. 524956
+    PrimaryNetworkComponent: { NetworkVlan: { Id: REPLACE_ME } }
+    # replace with your private vlan id, e.g. 524954
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id: REPLACE_ME } }
+
+vm_types:
+- name: compilation
+  cloud_properties:
+    # replace with your director ip, e.g. 10.113.189.94
+    Bosh_ip: REPLACE_ME
+    StartCpus:  4
+    MaxMemory:  8192
+    EphemeralDiskSize: 100
+    HourlyBillingFlag: true
+    VmNamePrefix: REPLACE_ME
+- name: concourse-server
+  cloud_properties:
+    # replace with your director ip, e.g. 10.113.189.94
+    Bosh_ip: REPLACE_ME
+    StartCpus:  4
+    MaxMemory:  8192
+    EphemeralDiskSize: 100
+    HourlyBillingFlag: true
+    VmNamePrefix: REPLACE_ME
+
+disk_types:
+- name: small
+  disk_size: 50_000
+- name: large
+  disk_size: 500_000
+
+networks:
+- name: network1
+  type: dynamic
+  subnets:
+  - {az: az1, dns: [ REPLACE_ME ]}
+
+compilation:
+  workers: 5
+  reuse_compilation_vms: true
+  az: az1
+  vm_type: compilation
+  network: network1
