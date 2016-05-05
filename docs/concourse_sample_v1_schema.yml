@@ -1,0 +1,127 @@
+---
+name: concourse
+# replace with your director uuid
+director_uuid: REPLACE_ME
+
+compilation:
+  workers: 5
+  network: concourse
+  reuse_compilation_vms: true
+  cloud_properties:
+    # replace with your director ip, e.g. 10.113.189.94
+    Bosh_ip: REPLACE_ME
+    StartCpus:  4
+    MaxMemory:  8192
+    EphemeralDiskSize: 100
+    HourlyBillingFlag: true
+    # replace with datacenter name, e.g. lon02
+    Datacenter: { Name: REPLACE_ME  }
+    # replace with your public vlan id, e.g. 524956
+    PrimaryNetworkComponent: { NetworkVlan: { Id: REPLACE_ME  } }
+    # replace with your private vlan id, e.g. 524954
+    PrimaryBackendNetworkComponent: { NetworkVlan: { Id: REPLACE_ME  } }
+    VmNamePrefix: concourse-compilation-worker-
+
+update:
+  canaries: 1
+  max_in_flight: 1
+  serial: false
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000
+
+resource_pools:
+- name: concourse
+  network: concourse
+  stemcell:
+    name: light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    # replace with your director ip, e.g. 10.113.189.94
+    Bosh_ip: REPLACE_ME
+    Domain: REPLACE_ME
+    VmNamePrefix: REPLACE_ME
+    StartCpus: 8
+    MaxMemory: 16384
+    Datacenter:
+       Name: REPLACE_ME
+    LocalDiskFlag: true
+    EphemeralDiskSize: 100
+    PrimaryNetworkComponent:
+       NetworkVlan:
+          Id: REPLACE_ME
+    PrimaryBackendNetworkComponent:
+       NetworkVlan:
+          Id: REPLACE_ME
+    NetworkComponents:
+    - MaxSpeed: 1000
+
+disk_pools:
+- name: db
+  disk_size: 500_000
+
+networks:
+- name: concourse
+  type: dynamic
+  dns:
+  # replace with your director ip, e.g. 10.113.189.94
+  - REPLACE_ME
+  - 8.8.8.8
+  - 10.0.80.11
+  - 10.0.80.12
+
+releases:
+  - name: concourse
+    version: latest
+  - name: garden-linux
+    version: latest
+
+jobs:
+- name: concourse
+  instances: 1
+  resource_pool: concourse
+  persistent_disk_pool: db
+
+  templates:
+    - {release: concourse, name: atc}
+    - {release: concourse, name: groundcrew}
+    - {release: concourse, name: tsa}
+    - {release: concourse, name: postgresql}
+    - {release: concourse, name: baggageclaim}
+    - {release: garden-linux, name: garden}
+
+  networks:
+    - name: concourse
+
+  properties:
+    atc:
+      # replace with username/password, or configure GitHub auth
+      basic_auth_username: &atc_username REPLACE_ME
+      basic_auth_password: &atc_password REPLACE_ME
+      postgresql:
+        address: 127.0.0.1
+        database: atc
+        role: &atc-role
+          # make up a role and password
+          name: REPLACE_ME
+          password: REPLACE_ME
+      # replace with your CI's externally reachable URL, e.g. https://ci.foo.com
+      external_url:
+    postgresql:
+        databases: [{name: atc}]
+        roles:
+          - *atc-role
+    tsa:
+      forward_host: 127.0.0.1
+      atc:
+        address: 127.0.0.1:8080
+    garden:
+      listen_network: tcp
+      listen_address: 0.0.0.0:7777
+      allow_host_access: true
+      disk_quota_enabled: false
+      log_level: debug
+    groundcrew:
+      tsa:
+        host: 127.0.0.1
+      garden:
+        address: 127.0.0.1:7777

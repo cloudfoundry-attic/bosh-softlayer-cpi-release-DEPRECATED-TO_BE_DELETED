@@ -1,21 +1,24 @@
-# BOSH Softlayer CPI Release for BOSH V1
+# BOSH Softlayer CPI Release for BOSH V2
 
 * Documentation: [bosh.io/docs](https://bosh.io/docs)
-* Slack: [#bosh-softlayer-cpi](https://cloudfoundry.slack.com/messages/bosh-softlayer-cpi)
+* BOSH Slack channel: [#bosh](https://cloudfoundry.slack.com/archives/bosh)
+* BOSH SoftLayer CPI Slack channel: [#bosh-softlayer-cpi](https://cloudfoundry.slack.com/archives/bosh-softlayer-cpi)
 * Mailing list: [cf-bosh](https://lists.cloudfoundry.org/pipermail/cf-bosh)
-* CI: <http://159.122.236.143:8080/pipelines/bosh-softlayer-cpi-release-v2>
+* CI: <http://159.122.236.143:8080/pipelines/bosh-softlayer-cpi-release-v1>
 * Roadmap: [Pivotal Tracker](https://www.pivotaltracker.com/n/projects/1344876)
 
-This is a BOSH release for the SoftLayer CPI.
+## Releases
+
+This is a BOSH release for the Softlayer CPI.
+
+The latest version for the SoftlLayer CPI release is here. Also, find it on [bosh.io](http://bosh.io).
+
+To use this CPI you will need to use the SoftLayer light stemcell. Latest version here. Also, find it on [bosh.io](http://bosh.io).
 
 ## Bootstrap on SoftLayer
 
-see [bosh-init-usage](docs/bosh-init-usage.md).
+See [bosh-init-usage](docs/bosh-init-usage.md). Use the CPI and stemcells releases above to do so.
 
-## Deployment Manifest Schema Sample:
+## Deployment Manifests Samples
 
-see [cf-deployment-manifest](docs/cf_deployment_sl_sample.yml)
-
-## Development
-
-See [development doc](docs/development.md).
+For Concourse, see [concourse-deployment-manifest](docs/concourse_sample_v1_schema.yml)
