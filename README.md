@@ -11,9 +11,9 @@
 
 This is a BOSH release for the Softlayer CPI.
 
-The latest version for the SoftlLayer CPI release is here. Also, find it on [bosh.io](http://bosh.io].
+The latest version for the SoftlLayer CPI release is here. Also, find it on [bosh.io](http://bosh.io).
 
-To use this CPI you will need to use the SoftLayer light stemcell. Latest version here. Also, find it on [bosh.io](http://bosh.io].
+To use this CPI you will need to use the SoftLayer light stemcell. Latest version here. Also, find it on [bosh.io](http://bosh.io).
 
 ## Bootstrap on SoftLayer
 
