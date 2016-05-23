@@ -11,9 +11,9 @@
 
 This is a BOSH release dedicated for the Softlayer CPI release v1: [bosh 236](https://s3.amazonaws.com/bosh-softlayer-cpi-stemcells/bosh-236%2Bdev.12.tgz)
 
-The latest version for the SoftlLayer CPI release is here. Also, find it on [bosh.io](http://bosh.io).
+The latest version for the SoftlLayer CPI release is here. Also, it will be available on [bosh.io](http://bosh.io) soon.
 
-To use this CPI you will need to use the SoftLayer light stemcell. Latest version:  [3169](https://s3.amazonaws.com/bosh-softlayer-cpi-stemcells/light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent.tgz).
+To use this CPI you will need to use the SoftLayer light stemcell. Latest version:  [3232.4](https://s3.amazonaws.com/bosh-softlayer-cpi-stemcells/light-bosh-stemcell-3232.4-softlayer-esxi-ubuntu-trusty-go_agent.tgz).
 
 ## Bootstrap on SoftLayer
 
