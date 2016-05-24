@@ -1,4 +1,4 @@
-# BOSH Softlayer CPI Release for BOSH V2
+# BOSH Softlayer CPI Release
 
 * Documentation: [bosh.io/docs](https://bosh.io/docs)
 * BOSH Slack channel: [#bosh](https://cloudfoundry.slack.com/archives/bosh)
