@@ -19,7 +19,6 @@ mkdir my-bosh-init
 name: bosh
 
 releases:
-releases:
 - name: bosh
   url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=256.2
   sha1: ff2f4e16e02f66b31c595196052a809100cfd5a8
