@@ -2,17 +2,18 @@
 name: bosh
 
 releases:
-releases:
 - name: bosh
-  url: file://./bosh-236+dev.12.tgz 
-- name: bosh-softlayer-cpi-release
-  url: file://./bosh-softlayer-cpi-10.tgz
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=256.2
+  sha1: ff2f4e16e02f66b31c595196052a809100cfd5a8
+- name: bosh-softlayer-cpi
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-softlayer-cpi-release?v=2.3.0
+  sha1: ed79e5617961076a22c8111d173bc5bfeb6a9b14
   
 resource_pools:
 - name: vms
   network: default
   stemcell:
-    url: file://./light-bosh-stemcell-3215-softlayer-esxi-ubuntu-trusty-go_agent.tgz
+    url: file://./light-bosh-stemcell-3232.4-softlayer-esxi-ubuntu-trusty-go_agent.tgz 
   cloud_properties:
     Domain: softlayer.com
     VmNamePrefix: bosh-softlayer
@@ -33,9 +34,6 @@ resource_pools:
 disk_pools:
 - name: disks
   disk_size: 40_000
-  cloud_properties:
-    consistent_performance_iscsi: true
-
 
 networks:
 - name: default
@@ -49,7 +47,6 @@ jobs:
 
   templates:
   - {name: nats, release: bosh}
-  - {name: redis, release: bosh}
   - {name: postgres, release: bosh}
   - {name: blobstore, release: bosh}
   - {name: director, release: bosh}
@@ -77,11 +74,6 @@ jobs:
       ping_max_outstanding: 2
       http:
         port: 9222
-    redis:
-      address: 127.0.0.1
-      password: redis
-      port: 25255
-      loglevel: info
     postgres: &20585760
       user: postgres
       password: postges
