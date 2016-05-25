@@ -31,7 +31,7 @@ resource_pools:
 - name: vms
   network: default
   stemcell:
-    url: file://./light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent.tgz 
+    url: file://./light-bosh-stemcell-3232.4-softlayer-esxi-ubuntu-trusty-go_agent.tgz 
   cloud_properties:
     Domain: softlayer.com
     VmNamePrefix: bosh-softlayer
@@ -65,7 +65,6 @@ jobs:
 
   templates:
   - {name: nats, release: bosh}
-  - {name: redis, release: bosh}
   - {name: postgres, release: bosh}
   - {name: blobstore, release: bosh}
   - {name: director, release: bosh}
