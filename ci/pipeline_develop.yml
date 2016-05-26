@@ -65,7 +65,7 @@ jobs:
   - aggregate:
     - {trigger: true,  get: bosh-cpi-dev-artifacts, passed: [bats-ubuntu]}
     - {trigger: false, get: bosh-cpi-release, resource: bosh-cpi-release-out}
-    - {trigger: false, get: release-version-semver, params: {bump: minor}}
+    - {trigger: false, get: release-version-semver, params: {bump: patch}}
 
   - task: promote
     file: bosh-cpi-release/ci/tasks/promote-candidate.yml
@@ -103,7 +103,7 @@ resources:
   type: git
   source:
     uri: git@github.com:cloudfoundry-incubator/bosh-softlayer-cpi-release.git
-    branch: develop_v2
+    branch: master
     private_key: {{github_promote_private_key}}
     ignore_paths:
         - .final_builds/**/*.yml
@@ -113,7 +113,7 @@ resources:
   type: git
   source:
     uri: git@github.com:cloudfoundry-incubator/bosh-softlayer-cpi-release.git
-    branch: develop_v2
+    branch: master
     private_key: {{github_promote_private_key}}
 
 - name: version-semver

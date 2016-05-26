@@ -30,7 +30,7 @@ export BAT_INFRASTRUCTURE=softlayer
 export BAT_NETWORKING=dynamic
 export BAT_DEBUG_MODE=true
 
-STEMCELL_VERSION=$(cat stemcell-version/number | cut -f1 -d.)
+STEMCELL_VERSION=$(cat stemcell-version/number | sed 's/\.0$//;s/\.0$//')
 
 bosh -n target $BAT_DIRECTOR
 echo Using This version of bosh:
