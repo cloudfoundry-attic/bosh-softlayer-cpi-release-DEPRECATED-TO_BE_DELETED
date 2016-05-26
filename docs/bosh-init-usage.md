@@ -19,17 +19,18 @@ mkdir my-bosh-init
 name: bosh
 
 releases:
-releases:
 - name: bosh
-  url: file://./bosh-255.8+dev.4.tgz  # https://s3.amazonaws.com/bosh-softlayer-cpi-stemcells/bosh-255.8%2Bdev.4.tgz
+  url: https://bosh.io/d/github.com/cloudfoundry/bosh?v=256.2
+  sha1: ff2f4e16e02f66b31c595196052a809100cfd5a8
 - name: bosh-softlayer-cpi
-  url: file://./bosh-softlayer-cpi-2.2.0.tgz # https://s3.amazonaws.com/bosh-softlayer-cpi-pipeline/bosh-softlayer-cpi-2.2.0.tgz
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/bosh-softlayer-cpi-release?v=2.3.0
+  sha1: ed79e5617961076a22c8111d173bc5bfeb6a9b14
   
 resource_pools:
 - name: vms
   network: default
   stemcell:
-    url: file://./light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent.tgz 
+    url: file://./light-bosh-stemcell-3232.4-softlayer-esxi-ubuntu-trusty-go_agent.tgz 
   cloud_properties:
     Domain: softlayer.com
     VmNamePrefix: bosh-softlayer
@@ -63,7 +64,6 @@ jobs:
 
   templates:
   - {name: nats, release: bosh}
-  - {name: redis, release: bosh}
   - {name: postgres, release: bosh}
   - {name: blobstore, release: bosh}
   - {name: director, release: bosh}
@@ -91,11 +91,6 @@ jobs:
       ping_max_outstanding: 2
       http:
         port: 9222
-    redis:
-      address: 127.0.0.1
-      password: redis
-      port: 25255
-      loglevel: info
     postgres: &20585760
       user: postgres
       password: postges
@@ -122,7 +117,6 @@ jobs:
         host: 127.0.0.1
         password: postges
         user: postgres
-      enable_virtual_delete_vms: true
     hm:
       http:
         user: hm

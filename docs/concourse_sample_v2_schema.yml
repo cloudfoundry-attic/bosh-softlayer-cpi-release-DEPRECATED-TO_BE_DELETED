@@ -10,8 +10,8 @@ releases:
 
 stemcells:
 - alias: default
-  name: light-bosh-stemcell-3169-softlayer-esxi-ubuntu-trusty-go_agent
-  version: 3169
+  name: light-bosh-stemcell-3232.4-softlayer-esxi-ubuntu-trusty-go_agent
+  version: 3232.4
 
 instance_groups:
 - name: concourse
