@@ -5,4 +5,4 @@ dependencies:
 - golang_1.5.3
 
 files:
-- bosh-softlayer-cpi/**/*
+- github.com/cloudfoundry/bosh-softlayer-cpi/**/*

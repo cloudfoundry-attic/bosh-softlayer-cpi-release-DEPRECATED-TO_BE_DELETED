@@ -5,6 +5,7 @@ config/private.yml
 releases/*.tgz
 releases/**/*.tgz
 dev_releases
+pkg/
 .blobs
 blobs
 .dev_builds
