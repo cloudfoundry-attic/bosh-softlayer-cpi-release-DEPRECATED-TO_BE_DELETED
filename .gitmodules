@@ -1,4 +1,3 @@
 [submodule "src/bosh-softlayer-cpi"]
 	path = src/bosh-softlayer-cpi
 	url = https://github.com/cloudfoundry/bosh-softlayer-cpi
-	branch = develop_v2
