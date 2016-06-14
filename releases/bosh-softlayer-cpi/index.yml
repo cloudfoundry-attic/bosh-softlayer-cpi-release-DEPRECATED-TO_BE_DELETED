@@ -8,4 +8,6 @@ builds:
     version: 2.3.0
   41e6146a-2fdc-44db-a3fb-ec2fa045eed2:
     version: 2.3.1
+  74a6b285-be85-4380-afd3-80945fb09ac6:
+    version: 2.3.2
 format-version: '2'
