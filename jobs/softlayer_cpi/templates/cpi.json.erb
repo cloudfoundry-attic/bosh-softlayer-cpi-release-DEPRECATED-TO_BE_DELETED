@@ -13,11 +13,11 @@
       }
     }
   }
-  if_p('baremetal') do
+  if_p('baremetal.username', 'baremetal.password', 'baremetal.endpoint') do |username, password, endpoint|
     baremetal_params = {
-        'username' => if_p('baremetal.username'),
-        'password' => if_p('baremetal.password'),
-        'endpoint' => if_p('baremetal.endpoint'),
+        'username' => username,
+        'password' => password,
+        'endpoint' => endpoint,
     }
     params['cloud']['properties']['baremetal'] = baremetal_params
   end
