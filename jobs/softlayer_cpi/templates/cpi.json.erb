@@ -13,14 +13,13 @@
       }
     }
   }
-  if_p('baremetal.username') do |username|
-    params['cloud']['properties']['baremetal']['username'] = username
-  end
-  if_p('baremetal.password') do |password|
-    params['cloud']['properties']['baremetal']['password'] = password
-  end
-  if_p('baremetal.endpoint') do |endpoint|
-    params['cloud']['properties']['baremetal']['endpoint'] = endpoint
+  if_p('baremetal') do
+    baremetal_params = {
+        'username' => p('baremetal.username'),
+        'password' => p('baremetal.password'),
+        'endpoint' => p('baremetal.endpoint'),
+    }
+    params['cloud']['properties']['baremetal'] = baremetal_params
   end
   if_p('blobstore') do
     blobstore_params = {
