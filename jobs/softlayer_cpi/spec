@@ -16,6 +16,14 @@ properties:
   softlayer.apiKey:
     description: "API key of the softlayer account"
 
+  baremetal.username:
+    description: "User name of baremetal server account"
+  baremetal.password:
+    description: "Password of baremetal server account"
+  baremetal.endpoint:
+    description: "URL of baremetal server"
+    example: http://@some-ip:port
+
   registry.username:
     description: User to access the Registry
   registry.password:
