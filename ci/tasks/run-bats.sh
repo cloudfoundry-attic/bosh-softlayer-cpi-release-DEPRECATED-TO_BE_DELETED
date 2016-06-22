@@ -42,7 +42,7 @@ manifest_template_path: $(echo `pwd`/softlayer.yml.erb)
 properties:
   uuid: $(bosh status --uuid)
   stemcell:
-    name: light-bosh-stemcell-$STEMCELL_VERSION-softlayer-esxi-ubuntu-trusty-go_agent-public
+    name: bosh-softlayer-esxi-ubuntu-trusty-go_agent
     version: latest
   cloud_properties:
     bosh_ip: $BAT_DIRECTOR
