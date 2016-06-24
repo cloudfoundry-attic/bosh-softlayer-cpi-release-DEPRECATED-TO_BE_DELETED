@@ -2,7 +2,7 @@
 name: bosh_softlayer_cpi
 
 dependencies:
-    - golang_1.5.3
+- golang_1.6.2
 
 files:
-    - bosh-softlayer-cpi/**/*
+- bosh-softlayer-cpi/**/*
