@@ -22,4 +22,6 @@ builds:
     version: 2.3.7
   08af3960-5e6d-4622-aa20-e1daaf087eff:
     version: 2.3.8
+  5479ea00-bfee-41ee-8606-a7a9c16f63e0:
+    version: 2.3.9
 format-version: '2'
