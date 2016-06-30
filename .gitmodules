@@ -1,4 +1,4 @@
 [submodule "src/bosh-softlayer-cpi"]
 	path = src/bosh-softlayer-cpi
 	url = https://github.com/JimmyMa/bosh-softlayer-cpi
-	branch = portable_ip_support
+	branch = wjq_develop_4
