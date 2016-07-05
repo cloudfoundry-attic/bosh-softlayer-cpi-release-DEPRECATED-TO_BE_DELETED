@@ -4,7 +4,7 @@
 * BOSH Slack channel: [#bosh](https://cloudfoundry.slack.com/archives/bosh)
 * BOSH SoftLayer CPI Slack channel: [#bosh-softlayer-cpi](https://cloudfoundry.slack.com/archives/bosh-softlayer-cpi)
 * Mailing list: [cf-bosh](https://lists.cloudfoundry.org/pipermail/cf-bosh)
-* CI: <http://159.122.236.143:8080/pipelines/bosh-softlayer-cpi-release-v2>
+* CI: <http://bosh-softlayer-cpi.ci.bluemix.net:8080/pipelines/bosh-softlayer-cpi-release-v2>
 * Roadmap: [Pivotal Tracker](https://www.pivotaltracker.com/n/projects/1344876)
 
 ## Releases
@@ -25,4 +25,4 @@ See [bosh-init-usage](docs/bosh-init-usage.md). Use the CPI and stemcells releas
 
 For Cloud Config, see [sl-cloud-config](docs/sl-cloud-config.yml)
 
-For Concourse, see [concourse-deployment-manifest](docs/concourse_sample_v2_schema.yml)
+For Concourse, follow the guide of [Cluster with BOSH](http://concourse.ci/clusters-with-bosh.html) and reference the deployment manifest sample in ```Deploying Concourse``` section.
