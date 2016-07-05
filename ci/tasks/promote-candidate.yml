@@ -1,12 +1,17 @@
 ---
 platform: linux
-image: docker:///boshcpi/azure-cpi-release
+
+image_resource:
+  type: docker-image
+  source:
+    repository: boshcpi/azure-cpi-release
+
 inputs:
-  - name: bosh-cpi-release
-  - name: bosh-cpi-dev-artifacts
-  - name: release-version-semver
+- name: bosh-cpi-release
+- name: bosh-cpi-dev-artifacts
+- name: release-version-semver
 outputs:
-  - name: promoted
+- name: promoted
 run:
   path: bosh-cpi-release/ci/tasks/promote-candidate.sh
 params:
