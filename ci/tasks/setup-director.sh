@@ -73,7 +73,6 @@ jobs:
 
   templates:
   - {name: nats, release: bosh}
-  - {name: redis, release: bosh}
   - {name: postgres, release: bosh}
   - {name: blobstore, release: bosh}
   - {name: director, release: bosh}
@@ -101,11 +100,6 @@ jobs:
       ping_max_outstanding: 2
       http:
         port: 9222
-    redis:
-      address: 127.0.0.1
-      password: redis
-      port: 25255
-      loglevel: info
     postgres: &20585760
       user: postgres
       password: postgres
