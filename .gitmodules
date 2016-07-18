@@ -1,3 +1,4 @@
 [submodule "src/github.com/cloudfoundry/bosh-softlayer-cpi"]
 	path = src/github.com/cloudfoundry/bosh-softlayer-cpi
 	url = https://github.com/JimmyMa/bosh-softlayer-cpi
+	branch = wjq_develop_4
