@@ -1,6 +1,6 @@
 ---
 groups:
-  - name: bosh-softlayer-cpi-release-v2
+  - name: bosh-softlayer-cpi-release-baremetal
     jobs:
       - build-candidate
       - bats-ubuntu
@@ -21,7 +21,7 @@ jobs:
     file: bosh-cpi-release/ci/tasks/build-candidate.yml
 
   - put: bosh-cpi-dev-artifacts
-    params: {from: candidate/.*\.tgz}
+    params: {file: candidate/*.tgz}
 
 - name: bats-ubuntu
   plan:
@@ -80,13 +80,13 @@ jobs:
     params: {file: release-version-semver/number}
 
   - put: bosh-cpi-final-artifacts
-    params: {from: promoted/repo/releases/bosh-softlayer-cpi/.*\.tgz}
+    params: {file: promoted/repo/releases/bosh-softlayer-cpi/*.tgz}
 
 resources:
 - name: bosh-cpi-dev-artifacts
   type: s3
   source:
-    regexp: bosh-softlayer-cpi\.tgz
+    regexp: bosh-softlayer-cpi-(\d+\.\d+\.\d+)\.tgz
     bucket: {{s3_pipeline_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
@@ -94,7 +94,7 @@ resources:
 - name: bosh-cpi-final-artifacts
   type: s3
   source:
-    regexp: bosh-softlayer-cpi-([0-9.]+)\.tgz
+    regexp: bosh-softlayer-cpi-(\d+\.\d+\.\d+)\.tgz
     bucket: {{s3_pipeline_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
@@ -103,7 +103,7 @@ resources:
   type: git
   source:
     uri: git@github.com:cloudfoundry-incubator/bosh-softlayer-cpi-release.git
-    branch: master
+    branch: baremetal
     private_key: {{github_promote_private_key}}
     ignore_paths:
         - .final_builds/**/*.yml
@@ -113,7 +113,7 @@ resources:
   type: git
   source:
     uri: git@github.com:cloudfoundry-incubator/bosh-softlayer-cpi-release.git
-    branch: master
+    branch: baremetal
     private_key: {{github_promote_private_key}}
 
 - name: version-semver
