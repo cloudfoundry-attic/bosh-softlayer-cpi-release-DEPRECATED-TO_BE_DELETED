@@ -1,6 +1,5 @@
 ---
 golang_1.6.2/go1.6.2.linux-amd64.tar.gz:
   object_id: 4af848c7-c895-43cd-a9cd-b75a6bdea79a
-  sha: !binary |-
-    YjgzMThiMDlkZTA2MDc2ZDUzOTdlNmVjMThlYmVmM2I0NWNkMzE1ZA==
+  sha: b8318b09de06076d5397e6ec18ebef3b45cd315d
   size: 84840658
