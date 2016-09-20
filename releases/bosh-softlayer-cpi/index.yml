@@ -14,4 +14,6 @@ builds:
     version: 2.3.20
   21ef57fb-90f0-49de-aaeb-1a83bf2d17d6:
     version: 2.3.21
+  e1b8a1aa-45a6-4fe5-84ee-a9d890704490:
+    version: 2.3.22
 format-version: '2'
