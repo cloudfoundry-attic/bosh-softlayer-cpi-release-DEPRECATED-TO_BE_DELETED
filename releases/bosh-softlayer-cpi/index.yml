@@ -12,4 +12,6 @@ builds:
     version: 2.3.18
   623d2070-e836-45ee-92b1-ad481b7d1660:
     version: 2.3.20
+  21ef57fb-90f0-49de-aaeb-1a83bf2d17d6:
+    version: 2.3.21
 format-version: '2'
