@@ -13,31 +13,9 @@ it doesn't include features such as high availability and security.
 ## Deploy BOSH director in SoftLayer
 - https://bosh.io/docs/init-aws.html
 
-## Create New Subnet For Cloud Foundry Deployment
-- Click on "Subnets" from the VPC Dashboard
-- Click "Create Subnet"
-- Fill in
-  - Name tag: cf
-  - VPC: bosh
-  - Availability Zone: Pick the same Availability Zone as the bosh Subnet
-    - Replace REPLACE_WITH_AZ in the example manifest with the Availability Zone you chose
-  - CIDR block: 10.0.16.0/24
-  - Click "Yes, Create"
-- Replace REPLACE_WITH_PRIVATE_SUBNET_ID in the example manifest with the Subnet ID for the cf Subnet
-- Replace REPLACE_WITH_PUBLIC_SUBNET_ID in the example manifest with the Subnet ID for the bosh Subnet
-- Select the cf Subnet from the Subnet list
-- Click the name of the "Route table:" to view the route tables
-- Select the route table from the list
-- Click "Routes" in the bottom window
-- Click "Edit"
-- Fill in a new route
-  - Distination: 0.0.0.0/0
-  - Target: Select the NAT instance from the list
-- Click "Save"
-
-- Click on "Elastic IPs" from the VPC Dashboard
-- Click "Allocate New Address"
-- Replace REPLACE_WITH_ELASTIC_IP in the example manifest with the new IP address
+## Create New Subnet (Portable IPs) For Cloud Foundry Deployment
+- To use the portable IPs, you need to first apply them from Softlayer. In the target private VLAN, apply a portable subnet from SoftLayer portal. The size is based on your actual needs.
+If your SoftLayer account doesn't have enough permissions to do this, please ask SoftLayer support for help.
 
 ## DNS Configuration
 If you have a domain you plan to use for your Cloud Foundry System Domain. Set up the DNS as follows:
