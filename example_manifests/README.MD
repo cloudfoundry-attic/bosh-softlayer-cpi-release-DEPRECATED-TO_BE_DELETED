@@ -11,7 +11,7 @@ it doesn't include features such as high availability and security.
 # Setup
 
 ## Deploy BOSH director in SoftLayer
-- https://bosh.io/docs/init-aws.html
+- [bosh-init-usage](docs/bosh-init-usage.md)
 
 ## Create New Subnet (Portable IPs) For Cloud Foundry Deployment
 - To use the portable IPs, you need to first apply them from Softlayer. In the target private VLAN, apply a portable subnet from SoftLayer portal. The size is based on your actual needs.
