@@ -27,4 +27,4 @@ For Cloud Config, see [sl-cloud-config](docs/sl-cloud-config.yml)
 
 For Concourse, follow the guide of [Cluster with BOSH](http://concourse.ci/clusters-with-bosh.html) and reference the deployment manifest sample in ```Deploying Concourse``` section.
 
-For a minimalistic deployment of Cloud Foundry (diego architecture), follow the introduction  [README.md](https://github.com/cloudfoundry-incubator/bosh-softlayer-cpi-release/blob/master/example_manifests/README.MD).
+For a minimalistic deployment of Cloud Foundry (diego architecture), follow the introduction  [example_manifests](https://github.com/cloudfoundry-incubator/bosh-softlayer-cpi-release/tree/master/example_manifests).
