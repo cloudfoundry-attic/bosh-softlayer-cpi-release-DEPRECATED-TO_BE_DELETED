@@ -15,12 +15,16 @@ it doesn't include features such as high availability and security.
 
 ## Create New Subnet (Portable IPs) For Cloud Foundry Deployment
 - To use the portable IPs, you need to first apply them from Softlayer. In the target private VLAN, apply a portable subnet from SoftLayer portal. The size is based on your actual needs.
-If your SoftLayer account doesn't have enough permissions to do this, please ask SoftLayer support for help.
+  https://knowledgelayer.softlayer.com/learning/utilizing-subnets-and-ips
+- Order Global IP Address
+  https://knowledgelayer.softlayer.com/topic/global-ip
+  https://knowledgelayer.softlayer.com/learning/global-ip-addresses
+- Replace REPLACE_WITH_GLOBAL_IP in the example manifest with the new Global IP address
 
 ## DNS Configuration
 If you have a domain you plan to use for your Cloud Foundry System Domain. Set up the DNS as follows:
 
-Create a wildcard DNS entry for your root System Domain (\*.your-cf-domain.com) to point at the above Elastic IP address
+Create a wildcard DNS entry for your root System Domain (\*.your-cf-domain.com) to point at the above Global IP address
 
 - Click on "Route 53" from the Amazon Web Services Dashboard
 - Click on "Hosted Zones"
@@ -33,7 +37,7 @@ Create a wildcard DNS entry for your root System Domain (\*.your-cf-domain.com) 
   - Value: The Elastic IP create above
   - Click "Create"
 
-If you do NOT have a domain, you can use 0.0.0.0.xip.io for your System Domain and replace the zeroes with your Elastic IP
+If you do NOT have a domain, you can use 0.0.0.0.xip.io for your System Domain and replace the zeroes with your Global IP
 
 - Replace REPLACE_WITH_SYSTEM_DOMAIN with your system domain
 
