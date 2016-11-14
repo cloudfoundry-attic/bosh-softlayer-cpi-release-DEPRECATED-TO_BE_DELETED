@@ -15,7 +15,7 @@ check_param SL_VLAN_PRIVATE
 check_param BOSH_INIT_LOG_LEVEL
 
 source /etc/profile.d/chruby.sh
-chruby 2.1.2
+chruby 2.2.4
 
 semver=`cat version-semver/number`
 cpi_release_name=bosh-softlayer-cpi
@@ -73,7 +73,6 @@ jobs:
 
   templates:
   - {name: nats, release: bosh}
-  - {name: redis, release: bosh}
   - {name: postgres, release: bosh}
   - {name: blobstore, release: bosh}
   - {name: director, release: bosh}
@@ -101,11 +100,6 @@ jobs:
       ping_max_outstanding: 2
       http:
         port: 9222
-    redis:
-      address: 127.0.0.1
-      password: redis
-      port: 25255
-      loglevel: info
     postgres: &20585760
       user: postgres
       password: postgres

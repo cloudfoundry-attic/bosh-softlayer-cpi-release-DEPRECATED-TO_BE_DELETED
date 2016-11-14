@@ -26,3 +26,5 @@ See [bosh-init-usage](docs/bosh-init-usage.md). Use the CPI and stemcells releas
 For Cloud Config, see [sl-cloud-config](docs/sl-cloud-config.yml)
 
 For Concourse, follow the guide of [Cluster with BOSH](http://concourse.ci/clusters-with-bosh.html) and reference the deployment manifest sample in ```Deploying Concourse``` section.
+
+For a minimalistic deployment of Cloud Foundry (diego architecture), follow the introduction  [minimalistic_cf_deployment.md](docs/minimalistic_cf_deployment.md).
