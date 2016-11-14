@@ -1,6 +1,6 @@
 ---
 groups:
-  - name: bosh-softlayer-cpi-release-v2
+  - name: bosh-softlayer-cpi-release-wip
     jobs:
       - build-candidate
       - bats-ubuntu
@@ -21,7 +21,7 @@ jobs:
     file: bosh-cpi-release/ci/tasks/build-candidate.yml
 
   - put: bosh-cpi-dev-artifacts
-    params: {from: candidate/.*\.tgz}
+    params: {file: candidate/*.tgz}
 
 - name: bats-ubuntu
   plan:
@@ -80,13 +80,13 @@ jobs:
     params: {file: release-version-semver/number}
 
   - put: bosh-cpi-final-artifacts
-    params: {from: promoted/repo/releases/bosh-softlayer-cpi/.*\.tgz}
+    params: {file: promoted/repo/releases/bosh-softlayer-cpi/*.tgz}
 
 resources:
 - name: bosh-cpi-dev-artifacts
   type: s3
   source:
-    regexp: bosh-softlayer-cpi\.tgz
+    regexp: bosh-softlayer-cpi-(\d+\.\d+\.\d+)\.tgz
     bucket: {{s3_pipeline_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
@@ -94,7 +94,7 @@ resources:
 - name: bosh-cpi-final-artifacts
   type: s3
   source:
-    regexp: bosh-softlayer-cpi-([0-9.]+)\.tgz
+    regexp: bosh-softlayer-cpi-(\d+\.\d+\.\d+)\.tgz
     bucket: {{s3_pipeline_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
@@ -134,12 +134,9 @@ resources:
     initial_version: 2.0.0
 
 - name: bosh-release
-  type: s3
+  type: bosh-io-release
   source:
-      bucket: bosh-softlayer-cpi-stemcells
-      regexp: bosh-255.8\+dev\.([0-9.]+)\.tgz
-      access_key_id: {{s3_access_key_id}}
-      secret_access_key: {{s3_secret_access_key}}
+      repository: cloudfoundry/bosh
 
 - name: bosh-init
   type: s3
@@ -168,6 +165,6 @@ resources:
   type: semver
   source:
     key: stemcell-version
-    bucket: {{s3_candidate_stemcell_bucket_name}}
+    bucket: {{s3_candidate_stemcell_bucket}}
     access_key_id: {{s3_access_key_id}}
     secret_access_key: {{s3_secret_access_key}}
