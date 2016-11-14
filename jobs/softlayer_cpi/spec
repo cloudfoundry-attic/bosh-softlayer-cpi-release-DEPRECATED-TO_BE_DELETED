@@ -28,6 +28,12 @@ properties:
     description: "URL of baremetal server"
     example: http://@some-ip:port
 
+  pool.host:
+    description: Address of the Pool Server to connect to
+  pool.port:
+    description: Port of the Pool Server to connect to
+    default: 8889
+
   registry.username:
     description: User to access the Registry
   registry.password:

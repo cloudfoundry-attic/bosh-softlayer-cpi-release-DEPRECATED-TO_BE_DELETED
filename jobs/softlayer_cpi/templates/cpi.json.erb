@@ -46,6 +46,20 @@
     end
     params['cloud']['properties']['baremetal'] = baremetal_params
   end
+  if_p('pool') do
+    pool_params = {}
+    if_p('pool.host') do |host|
+      pool_params = {
+         'host' => host
+      }
+    end
+    if_p('pool.port') do |port|
+      pool_params = {
+         'port' => port
+      }
+    end
+    params['cloud']['properties']['pool'] = pool_params
+  end
   if_p('blobstore') do
     blobstore_params = {
       'provider' => p('blobstore.provider')
