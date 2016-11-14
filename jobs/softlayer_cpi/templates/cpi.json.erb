@@ -27,12 +27,23 @@
     end
     params['cloud']['properties']['softlayer']['featureOptions'] = softlayer_feature_options_params
   end
-  if_p('baremetal.username', 'baremetal.password', 'baremetal.endpoint') do |username, password, endpoint|
-    baremetal_params = {
-        'username' => username,
-        'password' => password,
-        'endpoint' => endpoint,
-    }
+  if_p('baremetal') do
+    baremetal_params = {}
+    if_p('baremetal.username') do |username|
+      baremetal_params = {
+         'username' => username
+      }
+    end
+    if_p('baremetal.password') do |password|
+      baremetal_params = {
+         'password' => password
+      }
+    end
+    if_p('baremetal.endpoint') do |endpoint|
+      baremetal_params = {
+         'endpoint' => endpoint
+      }
+    end
     params['cloud']['properties']['baremetal'] = baremetal_params
   end
   if_p('blobstore') do
