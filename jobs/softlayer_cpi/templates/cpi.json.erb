@@ -13,6 +13,28 @@
       }
     }
   }
+  if_p('softlayer.featureOptions') do
+    softlayer_feature_options_params = {}
+    if_p('softlayer.featureOptions.enablePool') do |enablePool|
+      softlayer_feature_options_params = {
+         'enablePool' => enablePool
+      }
+    end
+    if_p('softlayer.featureOptions.disableOsReload') do |disableOsReload|
+      softlayer_feature_options_params = {
+         'disableOsReload' => disableOsReload
+      }
+    end
+    params['cloud']['properties']['softlayer']['featureOptions'] = softlayer_feature_options_params
+  end
+  if_p('baremetal.username', 'baremetal.password', 'baremetal.endpoint') do |username, password, endpoint|
+    baremetal_params = {
+        'username' => username,
+        'password' => password,
+        'endpoint' => endpoint,
+    }
+    params['cloud']['properties']['baremetal'] = baremetal_params
+  end
   if_p('blobstore') do
     blobstore_params = {
       'provider' => p('blobstore.provider')
