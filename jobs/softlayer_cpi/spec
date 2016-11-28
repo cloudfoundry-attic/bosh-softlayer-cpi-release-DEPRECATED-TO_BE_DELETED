@@ -15,6 +15,23 @@ properties:
     description: "User name of the softlayer account"
   softlayer.apiKey:
     description: "API key of the softlayer account"
+  softlayer.featureOptions.disableOsReload:
+    description: "Disable Os Reload flag"
+  softlayer.featureOptions.enablePool:
+    description: "enable pooling flag"
+
+  baremetal.username:
+    description: "User name of baremetal server account"
+  baremetal.password:
+    description: "Password of baremetal server account"
+  baremetal.endpoint:
+    description: "URL of baremetal server"
+    example: http://@some-ip:port
+
+  pool.host:
+    description: Address of the Pool Server to connect to
+  pool.port:
+    description: Port of the Pool Server to connect to
 
   registry.username:
     description: User to access the Registry
