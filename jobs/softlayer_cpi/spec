@@ -19,6 +19,16 @@ properties:
     description: "Disable Os Reload flag"
   softlayer.featureOptions.enablePool:
     description: "enable pooling flag"
+  softlayer.featureOptions.apiEndpoint:
+    description: "Softlayer API endpoint"
+  softlayer.featureOptions.apiWaitTime:
+    description: "Retry interval of Softlayer API requests"
+  softlayer.featureOptions.apiRetryCount:
+    description: "Retry count of Softlayer API requests"
+  softlayer.featureOptions.createIscsiVolumeTimeout:
+    description: "Timeout of attaching iSCSI disk"
+  softlayer.featureOptions.createIscsiVolumePollingInterval:
+    description: "Interval of checking iSCSI disk ready"
 
   baremetal.username:
     description: "User name of baremetal server account"
