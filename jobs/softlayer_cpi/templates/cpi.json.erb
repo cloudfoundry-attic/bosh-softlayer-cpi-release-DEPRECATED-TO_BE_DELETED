@@ -30,10 +30,10 @@
     if_p('softlayer.featureOptions.apiRetryCount') do |apiRetryCount|
       softlayer_feature_options_params.merge!('apiRetryCount' => apiRetryCount)
     end
-    if_p('softlayer.featureOptions.apiRetryCount') do |createIscsiVolumeTimeout|
+    if_p('softlayer.featureOptions.createIscsiVolumeTimeout') do |createIscsiVolumeTimeout|
       softlayer_feature_options_params.merge!('createIscsiVolumeTimeout' => createIscsiVolumeTimeout)
     end
-    if_p('softlayer.featureOptions.apiRetryCount') do |createIscsiVolumePollingInterval|
+    if_p('softlayer.featureOptions.createIscsiVolumePollingInterval') do |createIscsiVolumePollingInterval|
       softlayer_feature_options_params.merge!('createIscsiVolumePollingInterval' => createIscsiVolumePollingInterval)
     end
     params['cloud']['properties']['softlayer']['featureOptions'] = softlayer_feature_options_params
