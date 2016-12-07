@@ -174,4 +174,8 @@ cloud_provider:
 bosh-init deploy bosh.yml
 ```
 
-**Please note that there needs communication between bosh-init and the target director VM over SoftLayer private network to accomplish a successful deployment. So please make sure the machine where to run bosh-init can access SoftLayer private network. You could enable [SoftLayer VPN](http://www.softlayer.com/VPN-Access) if the machine where to run bosh-init is outside of SoftLayer data center.**
+**Notes:**
+
+**1. Please make sure to run bosh-init with root user, since there needs to update /etc/hosts.**
+
+**2. Please note that there needs communication between bosh-init and the target director VM over SoftLayer private network to accomplish a successful deployment. So please make sure the machine where to run bosh-init can access SoftLayer private network. You could enable [SoftLayer VPN](http://www.softlayer.com/VPN-Access) if the machine where to run bosh-init is outside SoftLayer data center.**
