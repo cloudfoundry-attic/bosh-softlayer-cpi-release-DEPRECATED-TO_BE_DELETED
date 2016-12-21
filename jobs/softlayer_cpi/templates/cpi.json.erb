@@ -28,8 +28,6 @@
       registry_params.merge!("port" => port)
     end
 
-    registry_params.merge!("endpoint" => "http://#{p('registry.username')}:#{ERB::Util.url_encode(p('registry.password'))}@#{p('registry.host')}:#{p('registry.port')}")
-
     params["cloud"]["properties"]["registry"] = registry_params
   end
   if_p('softlayer.featureOptions') do
