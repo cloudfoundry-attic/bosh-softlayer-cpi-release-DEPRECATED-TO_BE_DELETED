@@ -9,17 +9,29 @@
         },
         "agent" => {
           "ntp" => p('ntp')
-        },
-        "registry" => {
-          "endpoint" => "http://#{p('registry.username')}:#{ERB::Util.url_encode(p('registry.password'))}@#{p('registry.host')}:#{p('registry.port')}",
-          "user" => p('registry.username'),
-          "password" => p('registry.password'),
-          "host" => p('registry.host'),
-          "port" => p('registry.port')
         }
       }
     }
   }
+  if_p('registry') do
+    registry_params = {}
+    if_p('registry.username') do |username|
+      registry_params.merge!("username" => username)
+    end
+    if_p('registry.password') do |password|
+      registry_params.merge!("password" => password)
+    end
+    if_p('registry.host') do |host|
+      registry_params.merge!("host" => host)
+    end
+    if_p('registry.port') do |port|
+      registry_params.merge!("port" => port)
+    end
+
+    registry_params.merge!("endpoint" => "http://#{p('registry.username')}:#{ERB::Util.url_encode(p('registry.password'))}@#{p('registry.host')}:#{p('registry.port')}")
+
+    params["cloud"]["properties"]["registry"] = registry_params
+  end
   if_p('softlayer.featureOptions') do
     softlayer_feature_options_params = {}
     if_p('softlayer.featureOptions.enablePool') do |enablePool|
