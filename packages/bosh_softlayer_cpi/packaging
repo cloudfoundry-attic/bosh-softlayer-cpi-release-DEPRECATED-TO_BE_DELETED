@@ -15,7 +15,7 @@ mkdir src && cp -a github.com src
 
 ls -l src
 cd src/github.com/cloudfoundry/bosh-softlayer-cpi
-bin/build-linux-amd64
+bin/build-amd64
 
 mkdir -p $BOSH_INSTALL_TARGET/bin
 cp out/softlayer_cpi $BOSH_INSTALL_TARGET/bin/softlayer_cpi
