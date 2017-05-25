@@ -1,0 +1,46 @@
+{
+  "method": "create_vm",
+  "arguments": [
+    "459b4916-6a5b-4931-5733-b61eda1c8c0f",
+    "1459855",
+    {
+      "deployedByBoshcli": true,
+      "datacenter": "lon02",
+      "domain": "softlayer.com",
+      "ephemeralDiskSize": 100,
+      "hourlyBillingFlag": true,
+      "maxMemory": 8192,
+      "startCpus": 4,
+      "vmNamePrefix": "bosh-sl-test-cpi",
+      "sshKey": 886121
+    },
+    {
+      "lon02_private": {
+        "cloud_properties": {
+          "vlanId": 1292651
+        },
+        "dns": [
+          "8.8.8.8",
+          "10.0.80.11",
+          "10.0.80.12"
+        ],
+        "type": "dynamic"
+      },
+      "lon02_public": {
+        "cloud_properties": {
+          "vlanId": 1292653
+        },
+        "default": [
+          "dns",
+          "gateway"
+        ],
+        "type": "dynamic"
+      }
+    },
+    [],
+    {}
+  ],
+  "context": {
+    "director_uuid": "254a3f6b-412-4639-6b37-f79a68ec410c"
+  }
+}

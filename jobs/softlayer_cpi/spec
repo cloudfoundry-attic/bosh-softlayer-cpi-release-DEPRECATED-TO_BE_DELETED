@@ -3,9 +3,8 @@ name: softlayer_cpi
 
 templates:
   cpi.erb: bin/cpi
+  pre-start.erb: bin/pre-start
   cpi.json.erb: config/cpi.json
-
-  cpi_ctl.erb:  bin/cpi_ctl
 
 packages:
 - bosh_softlayer_cpi
@@ -13,35 +12,12 @@ packages:
 properties:
   softlayer.username:
     description: "User name of the softlayer account"
-  softlayer.apiKey:
+  softlayer.api_key:
     description: "API key of the softlayer account"
-  softlayer.featureOptions.disableOsReload:
-    description: "Disable Os Reload flag"
-  softlayer.featureOptions.enablePool:
-    description: "enable pooling flag"
-  softlayer.featureOptions.apiEndpoint:
+  softlayer.api_endpoint:
     description: "Softlayer API endpoint"
-  softlayer.featureOptions.apiWaitTime:
-    description: "Retry interval of Softlayer API requests"
-  softlayer.featureOptions.apiRetryCount:
-    description: "Retry count of Softlayer API requests"
-  softlayer.featureOptions.createIscsiVolumeTimeout:
-    description: "Timeout of attaching iSCSI disk"
-  softlayer.featureOptions.createIscsiVolumePollingInterval:
-    description: "Interval of checking iSCSI disk ready"
-
-  baremetal.username:
-    description: "User name of baremetal server account"
-  baremetal.password:
-    description: "Password of baremetal server account"
-  baremetal.endpoint:
-    description: "URL of baremetal server"
-    example: http://@some-ip:port
-
-  pool.host:
-    description: Address of the Pool Server to connect to
-  pool.port:
-    description: Port of the Pool Server to connect to
+  softlayer.disable_os_reload:
+    description: "Disable OS reload function"
 
   registry.username:
     description: User to access the Registry
